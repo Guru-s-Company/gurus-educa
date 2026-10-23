@@ -1,0 +1,29 @@
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: inline-block;
+  flex-shrink: 0;
+  
+  transition: background-color 0.2s ease;
+}
+
+
+.status-dot--presence,
+.status-dot--online {
+  background-color: var(--verde);
+}
+
+.status-dot--member {
+  background-color: var(--roxo);
+}
+
+.status-dot--busy,
+.status-dot--offline {
+  background-color: var(#9ca3af); 
+}
+
+.status-dot--warning {
+  background-color: var(#eab308); 
+}
