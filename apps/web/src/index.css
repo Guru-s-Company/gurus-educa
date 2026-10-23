@@ -1,111 +1,184 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* O modo escuro é ativado pela classe .dark no <html> */
+@custom-variant dark (&:is(.dark *));
+
+/* =========================================================
+   MODO CLARO  (Gurus_Educa_Tokens)
+   ========================================================= */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  color-scheme: light;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* --- Variáveis do neobrutalism.dev --- */
+  --background: #F5F2FB;            /* Fundo */
+  --secondary-background: #FFFFFF;  /* Card */
+  --foreground: #1A1528;            /* Texto */
+  --main: #9B83D3;                  /* Roxo */
+  --main-foreground: #1A1528;       /* Texto sobre o Roxo */
+  --border: #1A1528;                /* Borda */
+  --ring: #6240BF;                  /* Roxo forte (foco) */
+  --overlay: oklch(0% 0 0 / 0.8);
+  --shadow: 8px 8px 0px var(--border);
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* --- Gráficos --- */
+  --chart-1: #6240BF;               /* Roxo forte */
+  --chart-2: #C62F3A;               /* Perigo */
+  --chart-3: #FFC857;               /* Aviso */
+  --chart-4: #6BD79B;               /* Verde */
+  --chart-5: #9B83D3;               /* Roxo */
+  --chart-active-dot: #1A1528;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  /* --- Tokens extras do Figma --- */
+  --apoio: #EBE5F7;
+  --borda-forte: #6B6086;
+  --texto-secundario: #4A4066;
+  --texto-auxiliar: #6B6086;
+  --roxo: #9B83D3;
+  --roxo-forte: #6240BF;
+  --roxo-suave: #D9CEF5;            /* escuro: "Roxo claro" */
+  --verde: #6BD79B;
+  --verde-forte: #1B7343;
+  --verde-suave: #CFF3DD;           /* escuro: "Verde claro" */
+  --borda-verde: #6BD79B;
+  --perigo: #C62F3A;
+  --aviso: #FFC857;
+}
+
+/* =========================================================
+   MODO ESCURO  (Gurus_Educa_Escuro)
+   ========================================================= */
+.dark {
+  color-scheme: dark;
+
+  --background: #221D33;            /* Fundo */
+  --secondary-background: #2E2745;  /* Card */
+  --foreground: #F3EFFB;            /* Texto */
+  --main: #9B83D3;                  /* Roxo */
+  --main-foreground: #0E0A18;       /* escuro, para ter contraste sobre o Roxo */
+  --border: #0E0A18;                /* Borda */
+  --ring: #C8BAF0;                  /* Roxo claro (foco) */
+  --overlay: oklch(0% 0 0 / 0.8);
+  --shadow: 4px 4px 0px 0px var(--border);
+
+  --chart-1: #C8BAF0;               /* Roxo claro */
+  --chart-2: #FF8A8A;               /* Perigo */
+  --chart-3: #FFC857;               /* Aviso */
+  --chart-4: #6BD79B;               /* Verde */
+  --chart-5: #9B83D3;               /* Roxo */
+  --chart-active-dot: #F3EFFB;
+
+  --apoio: #3B3358;
+  --borda-forte: #8F84AD;
+  --texto-secundario: #B9AED3;
+  --texto-auxiliar: #8F84AD;
+  --roxo: #9B83D3;
+  --roxo-forte: #6C4BB9;
+  --roxo-suave: #C8BAF0;
+  --verde: #6BD79B;
+  --verde-forte: #39BC73;
+  --verde-suave: #A6E8C0;
+  --borda-verde: #6BD79B;           /* não existe no modo escuro: reaproveitei o Verde */
+  --perigo: #FF8A8A;
+  --aviso: #FFC857;
+}
+
+/* =========================================================
+   Registro das cores e tokens no Tailwind
+   ========================================================= */
+@theme inline {
+  --color-main: var(--main);
+  --color-background: var(--background);
+  --color-secondary-background: var(--secondary-background);
+  --color-foreground: var(--foreground);
+  --color-main-foreground: var(--main-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-overlay: var(--overlay);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-active-dot: var(--chart-active-dot);
+
+  /* Cores extras: bg-apoio, text-texto-secundario, border-borda-forte... */
+  --color-apoio: var(--apoio);
+  --color-borda-forte: var(--borda-forte);
+  --color-texto-secundario: var(--texto-secundario);
+  --color-texto-auxiliar: var(--texto-auxiliar);
+  --color-roxo: var(--roxo);
+  --color-roxo-forte: var(--roxo-forte);
+  --color-roxo-suave: var(--roxo-suave);
+  --color-verde: var(--verde);
+  --color-verde-forte: var(--verde-forte);
+  --color-verde-suave: var(--verde-suave);
+  --color-borda-verde: var(--borda-verde);
+  --color-perigo: var(--perigo);
+  --color-aviso: var(--aviso);
+
+  --spacing-boxShadowX: 4px;
+  --spacing-boxShadowY: 4px;
+  --spacing-reverseBoxShadowX: -4px;
+  --spacing-reverseBoxShadowY: -4px;
+  --border-base: 3px;
+  --radius-base: 20px;
+  --font-weight-base: 400;          /* Sulphur Point só tem 300, 400 e 700 */
+  --font-weight-heading: 700;
+  --shadow-shadow: var(--shadow);
+
+  --font-sans: "Sulphur Point", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+
+  --animate-marquee: marquee 5s linear infinite;
+  --animate-marquee2: marquee2 5s linear infinite;
+
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+  @keyframes marquee2 {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0%); }
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+/* =========================================================
+   Base
+   ========================================================= */
+@layer base {
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-base);
+    background: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-weight-heading);
   }
 }
 
-body {
-  margin: 0;
+/* Barra de rolagem */
+body, .scrollbar {
+  --sb-track-color: var(--secondary-background);
+  --sb-thumb-color: var(--border);
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+.scrollbar::-webkit-scrollbar {
+  width: 16px;
+}
+.scrollbar::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+@supports not selector(::-webkit-scrollbar) {
+  .scrollbar {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }
