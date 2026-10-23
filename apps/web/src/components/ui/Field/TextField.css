@@ -1,0 +1,17 @@
+.text-field{
+    width: 80%;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    border: 3px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+
+    transition: all 0.15s ease;
+
+    &:focus-visible{
+        outline: none;
+        border-color: var(--verde);
+        box-shadow: 8px 8px 0 0 var(--verde);
+        color: var(--verde);
+    }
+}
