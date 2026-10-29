@@ -1,0 +1,46 @@
+.input-field-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-weight: bold;
+
+    transition: all 0.15s ease, transform 150ms ease;
+
+    &:has(.input-field:focus-visible){
+        .input-field-label,
+        .input-toggle{
+            color: var(--verde);
+        }
+    }
+    
+    .input-field{
+        width: 100%;
+        padding: 0.7rem 1rem;
+        background-color: var(--secondary-background);
+        border: 3px solid var(--border);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+
+        transition: all 0.15s ease, transform 150ms ease;
+
+        &:hover{
+            transform: translate(-1px, -1px);
+        }
+    
+        &:focus-visible{
+            outline: none;
+            border-color: var(--verde);
+            box-shadow: 8px 8px 0 0 var(--verde);
+
+        }
+    }
+    
+
+    .input-field-label{
+        font-size: 0.9rem;
+        font-weight: var(--font-weight-heading);
+        color: var(--foreground);
+        transition: color 0.15s ease;
+    }
+}
