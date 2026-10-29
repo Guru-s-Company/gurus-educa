@@ -4,7 +4,7 @@
     color: var(--text);
     cursor: pointer;
     transition: all 0.2s ease;
-    width: 80%;
+    width: 100%;
     border-radius: 40px;
 }
 
@@ -12,14 +12,11 @@
     background-color: var(--verde);
     color: var(--foreground);
 
-    font-weight: 400;
+    font-weight: 900;
+    font-size: 1.1rem;
 
     box-shadow: var(--shadow-shadow);
     transition: all 0.2s ease, font-weight 1s ease;
-
-    &:hover{
-        font-weight: 900;
-    }
 
     &:active{
         transform: translate(4px, 4px);
