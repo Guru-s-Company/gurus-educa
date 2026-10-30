@@ -123,7 +123,7 @@
   --spacing-reverseBoxShadowY: -4px;
   --border-base: 3px;
   --radius-base: 20px;
-  --font-weight-base: 400;          /* Sulphur Point só tem 300, 400 e 700 */
+  --font-weight-base: 900;          /* Sulphur Point só tem 300, 400 e 700 */
   --font-weight-heading: 700;
   --shadow-shadow: var(--shadow);
 
@@ -158,6 +158,10 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: var(--font-weight-heading);
+  }
+
+  p{
+    font-weight: var(--font-weight-base);
   }
 }
 
