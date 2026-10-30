@@ -21,6 +21,27 @@
   --overlay: oklch(0% 0 0 / 0.8);
   --shadow: 8px 8px 0px var(--border);
 
+  /* --- Durações e easings --- */
+  --duration-fast: 150ms;
+  --duration-standard: 200ms;
+  --duration-slow: 300ms;
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* --- Sombras centralizadas --- */
+  --shadow-base: 8px 8px 0 var(--border);
+  --shadow-hover: 8px 8px 0 var(--color-verde);
+  --shadow-active: 0 0 0 var(--border);
+
+  /* --- Espaçamentos --- */
+  --spacing-xs: 0.25rem;    /* 4px */
+  --spacing-sm: 0.5rem;     /* 8px */
+  --spacing-md: 1rem;       /* 16px */
+  --spacing-lg: 1.5rem;     /* 24px */
+  --spacing-xl: 2rem;       /* 32px */
+  --spacing-2xl: 3rem;      /* 48px */
+  --spacing-3xl: 4rem;      /* 64px */
+
   /* --- Gráficos --- */
   --chart-1: #6240BF;               /* Roxo forte */
   --chart-2: #C62F3A;               /* Perigo */
@@ -60,6 +81,18 @@
   --ring: #C8BAF0;                  /* Roxo claro (foco) */
   --overlay: oklch(0% 0 0 / 0.8);
   --shadow: 4px 4px 0px 0px var(--border);
+
+  /* --- Durações e easings --- */
+  --duration-fast: 150ms;
+  --duration-standard: 200ms;
+  --duration-slow: 300ms;
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* --- Sombras centralizadas --- */
+  --shadow-base: 4px 4px 0 var(--border);
+  --shadow-hover: 4px 4px 0 var(--color-verde);
+  --shadow-active: 0 0 0 var(--border);
 
   --chart-1: #C8BAF0;               /* Roxo claro */
   --chart-2: #FF8A8A;               /* Perigo */
@@ -117,6 +150,15 @@
   --color-perigo: var(--perigo);
   --color-aviso: var(--aviso);
 
+  /* Espaçamentos padrão */
+  --spacing-xs: 0.25rem;    /* 4px */
+  --spacing-sm: 0.5rem;     /* 8px */
+  --spacing-md: 1rem;       /* 16px */
+  --spacing-lg: 1.5rem;     /* 24px */
+  --spacing-xl: 2rem;       /* 32px */
+  --spacing-2xl: 3rem;      /* 48px */
+  --spacing-3xl: 4rem;      /* 64px */
+
   --spacing-boxShadowX: 4px;
   --spacing-boxShadowY: 4px;
   --spacing-reverseBoxShadowX: -4px;
@@ -125,7 +167,18 @@
   --radius-base: 20px;
   --font-weight-base: 900;          /* Sulphur Point só tem 300, 400 e 700 */
   --font-weight-heading: 700;
-  --shadow-shadow: var(--shadow);
+
+  /* Durações e easings */
+  --duration-fast: var(--duration-fast);
+  --duration-standard: var(--duration-standard);
+  --duration-slow: var(--duration-slow);
+  --easing-standard: var(--easing-standard);
+  --easing-spring: var(--easing-spring);
+
+  /* Sombras centralizadas do neobrutalismo */
+  --shadow-base: var(--shadow-base);
+  --shadow-hover: var(--shadow-hover);
+  --shadow-active: var(--shadow-active);
 
   --font-sans: "Sulphur Point", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
 
