@@ -1,43 +1,63 @@
-.action-button{
-    padding: 12px 16px;
-    border: 3px solid var(--border);
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    width: 100%;
-    border-radius: 40px;
+.action-button {
+  padding: 12px 16px;
+  border: 3px solid var(--color-border);
+  color: var(--color-foreground);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-spring);
+  width: 100%;
+  border-radius: 40px;
 }
 
-.fill{
-    background-color: var(--verde);
-    color: var(--foreground);
-
-    font-weight: 900;
-    font-size: 1.1rem;
-
-    box-shadow: var(--shadow-shadow);
-    transition: all 0.2s ease, font-weight 1s ease;
-
-    &:active{
-        transform: translate(4px, 4px);
-        box-shadow: 0 0 0 0 var(--border);
-    }
+.action-button:disabled,
+.action-button[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-.outline{
-    background-color: transparent;
-    color: var(--foreground);
-    border: 3px solid var(--border);
+.fill {
+  background-color: var(--color-verde);
+  color: var(--color-foreground);
 
-    box-shadow: inset 0px 0px 0px 0px,
-                 var(--shadow-shadow);
-    transition: all 0.2s ease;
+  font-weight: 900;
+  font-size: 1.1rem;
 
+  box-shadow: var(--shadow-base);
 
-    &:active{
-        transform: translate(4px, 4px);
-        box-shadow: inset 0px 0px 0px 4px var(--border),
-                     0 0 0 0 var(--border);
-    }
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-spring);
 
+  &:active {
+    transform: translate(4px, 4px);
+    box-shadow: var(--shadow-active);
+  }
+}
+
+.outline {
+  background-color: transparent;
+  color: var(--color-foreground);
+  border: 3px solid var(--color-border);
+
+  box-shadow: inset 0px 0px 0px 0px, var(--shadow-base);
+
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-spring);
+
+  &:active {
+    transform: translate(4px, 4px);
+    box-shadow: inset 0px 0px 0px 4px var(--color-border), var(--shadow-active);
+  }
 }
