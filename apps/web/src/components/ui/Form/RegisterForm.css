@@ -1,131 +1,162 @@
-.register-form{
-    width: 700px;
-    height: 500px;
-    padding: 1.5rem;
-    background-color: var(--apoio);
-    border: 3px solid var(--border);
-    border-radius: 20px;
-    box-shadow: var(--shadow-shadow);
+/**
+ * RegisterForm - Two-step registration form with circular transition
+ * BEM naming: .register-form (root), .register-form__element
+ */
 
-    position: relative;
-    isolation: isolate;
-    overflow: visible;
+.register-form {
+  width: 700px;
+  height: 500px;
+  padding: 1.5rem;
+  background-color: var(--apoio);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 8px 8px 0 0 var(--border);
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    
-    .form-header{
-        width: 100%;
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
 
-        h2{
-            font-size: 2.5rem;
-            font-weight: var(--font-weight-heading);
-            color: var(--foreground);
-        }
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 
-    .form-content{
-        width: 100%;
-        height: 100%;
-        flex: 2;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
-        .form-field{
-            display: flex;
-            gap: 0.5rem;
-        }
-    }
-
-    .form-footer{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-        margin-top: 1rem;
-        .form-actions{
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            gap: 0.75rem;
-
-            .github-button{
-                padding: 0.5rem 1rem;
-                background-color: var(--border);
-                border: 3px solid var(--secondary-background);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .google-button{
-                padding: 0.5rem 1rem;
-                background-color: var(--secondary-background);
-                color: var(--secondary-text);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .previous{
-                width: 9%;
-                border-radius: 50%;
-            }
-        }
-
-        .form-divider{
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            span{
-                background-color: var(--apoio);
-                width: 5%;
-                text-align: center;
-            }
-
-            .divider-line{
-                width: 50%;
-                background-color: var(--border);
-                height: 3px;
-                border-radius: 1000px;
-            }
-        }
-    }
-}
-
-
-/* ---------- Transição circular entre etapas ---------- */
-
-.step-transition {
-    position: absolute;
-    inset: 0;
-    z-index: 10;
-
-    overflow: hidden;
-    border-radius: inherit;
+  &:has(.register-form__step-transition-circle[aria-busy="true"]) {
     pointer-events: none;
+  }
+
+  &:has(input:focus-visible, button[aria-expanded="true"]) {
+      border-color: var(--color-verde);
+      box-shadow: 8px 8px 0 var(--color-verde);
+    }
+  }
+
+
+.register-form__header {
+  width: 100%;
 }
 
-/* Círculo animado */
-.step-transition__circle {
-    position: absolute;
-    inset: 0;
-
-    background-color: var(--border);
-
-    clip-path: circle(0% at 50% 50%);
-
-    transition:
-        clip-path 600ms cubic-bezier(0.76, 0, 0.24, 1);
+.register-form__header h2 {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-heading);
+  color: var(--foreground);
 }
 
-/* Expansão */
-.step-transition__circle.is-expanding {
-    clip-path: circle(150% at 50% 50%);
+.register-form__header p {
+  margin: 0.5rem 0 0;
+  color: var(--texto-secundario);
+}
+
+.register-form__content {
+  width: 100%;
+  height: 100%;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.register-form__field {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.register-form__footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.register-form__actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.register-form__github-button {
+  padding: 0.5rem 1rem;
+  background-color: var(--border);
+  border: 3px solid var(--secondary-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-form__google-button {
+  padding: 0.5rem 1rem;
+  background-color: var(--secondary-background);
+  color: var(--texto-auxiliar);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-form__previous {
+  width: 9%;
+  border-radius: 50%;
+}
+
+.register-form__divider {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-form__divider span {
+  background-color: var(--apoio);
+  width: 5%;
+  text-align: center;
+  color: var(--texto-auxiliar);
+}
+
+.register-form__divider-line {
+  width: 50%;
+  background-color: var(--border);
+  height: 3px;
+  border-radius: 1000px;
+}
+
+/* Step transition */
+.register-form__step-transition {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.register-form__step-transition-circle {
+  position: absolute;
+  inset: 0;
+
+  background-color: var(--border);
+
+  clip-path: circle(0% at 50% 50%);
+
+  transition:
+    clip-path 600ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.register-form__step-transition-circle[aria-busy="true"] {
+  clip-path: circle(150% at 50% 50%);
+}
+
+/* ARIA busy state */
+.register-form[aria-busy="true"] .register-form__content {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.register-form[aria-busy="true"] .register-form__actions {
+  opacity: 0.5;
+  pointer-events: none;
 }

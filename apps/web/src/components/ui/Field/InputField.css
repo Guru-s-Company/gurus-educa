@@ -1,46 +1,70 @@
-.input-field-container{
+.input-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-weight: var(--font-weight-base);
+
+  transition: color 0.15s ease, transform 150ms ease;
+
+  &:has(.input-field__input:focus-visible) {
+    .input-field__label,
+    .input-toggle {
+      color: var(--color-verde);
+    }
+  }
+
+  .input-field__input {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    font-weight: bold;
+    padding: 0.7rem 1rem;
+    background-color: var(--color-secondary-background);
+    border: 3px solid var(--color-border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-base);
 
-    transition: all 0.15s ease, transform 150ms ease;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 150ms ease;
 
-    &:has(.input-field:focus-visible){
-        .input-field-label,
-        .input-toggle{
-            color: var(--verde);
-        }
+    &:hover {
+      transform: translate(-1px, -1px);
     }
-    
-    .input-field{
-        width: 100%;
-        padding: 0.7rem 1rem;
-        background-color: var(--secondary-background);
-        border: 3px solid var(--border);
-        border-radius: 20px;
-        box-shadow: var(--shadow);
 
-        transition: all 0.15s ease, transform 150ms ease;
-
-        &:hover{
-            transform: translate(-1px, -1px);
-        }
-    
-        &:focus-visible{
-            outline: none;
-            border-color: var(--verde);
-            box-shadow: 8px 8px 0 0 var(--verde);
-
-        }
+    &:focus-visible {
+      outline: none;
+      border-color: var(--color-verde);
+      box-shadow: var(--shadow-hover);
     }
-    
 
-    .input-field-label{
-        font-size: 0.9rem;
-        font-weight: var(--font-weight-heading);
-        color: var(--foreground);
-        transition: color 0.15s ease;
+    &[aria-invalid="true"] {
+      border-color: var(--color-perigo);
     }
+
+    &[aria-invalid="true"]:focus-visible {
+      box-shadow: 8px 8px 0 0 var(--color-perigo);
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .input-field__label {
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-heading);
+    color: var(--color-foreground);
+    transition: color 0.15s ease;
+  }
+
+  .input-field__error {
+    font-size: 0.75rem;
+    color: var(--color-perigo);
+  }
+
+  .input-field__hint {
+    font-size: 0.75rem;
+    color: var(--color-texto-auxiliar);
+  }
 }
