@@ -1,26 +1,17 @@
-import './App.css'
-import { useState } from 'react'
-import ActionButton from './components/ui/Button/ActionButton'
-import CommunityCard from './components/ui/Card/CommunityCard'
-import RegisterForm from './components/ui/Form/RegisterForm'
-import SelectField from './components/ui/Field/SelectField'
-import Sidebar, { SidebarMobileToggle } from './components/ui/Sidebar/Sidebar'
+import "./App.css";
+import { useState } from "react";
+import ActionButton from "./components/ui/Button/ActionButton";
+import CommunityCard from "./components/ui/Card/CommunityCard";
+import RegisterForm from "./components/ui/Form/RegisterForm";
+import SelectField from "./components/ui/Field/SelectField";
+import Sidebar from "./components/ui/Sidebar/Sidebar";
+import BackgroundShapes from "./components/Background/Background";
 
 function App() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
-  const [sidebarMobileOpen, setSidebarMobileOpen] = useState(false)
-
   return (
     <>
-      <header style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <SidebarMobileToggle
-          mobileOpen={sidebarMobileOpen}
-          onClick={() => setSidebarMobileOpen(!sidebarMobileOpen)}
-        />
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Guru's Educa</h1>
-      </header>
-
-      <main style={{ marginLeft: sidebarCollapsed ? '72px' : '260px', padding: '2rem', transition: 'margin-left 200ms ease' }}>
+    <BackgroundShapes />
+      <main>
         <SelectField
           label="Curso"
           name="curso"
@@ -34,15 +25,11 @@ function App() {
 
         <br />
 
-        <ActionButton className="fill">
-          Click me
-        </ActionButton>
+        <ActionButton className="fill">Click me</ActionButton>
 
         <br />
 
-        <ActionButton className="outline">
-          Click me
-        </ActionButton>
+        <ActionButton className="outline">Click me</ActionButton>
 
         <br />
         <br />
@@ -61,16 +48,9 @@ function App() {
         <br />
       </main>
 
-      <Sidebar
-        collapsed={sidebarCollapsed}
-        onCollapseChange={setSidebarCollapsed}
-        mobileOpen={sidebarMobileOpen}
-        onMobileOpenChange={setSidebarMobileOpen}
-        user={{ name: 'João Silva', email: 'joao@guru.com' }}
-        onLogout={() => console.log('logout')}
-      />
+      <Sidebar />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

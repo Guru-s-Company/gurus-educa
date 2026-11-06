@@ -1,0 +1,70 @@
+/* ==========================================================
+   Background neobrutalista — Guru's Educa
+   Sem :root. O quadriculado é CSS puro; as formas são elementos
+   reais (BackgroundShapes.jsx), movidos por JS.
+   ========================================================== */
+
+/* ---------- Base: papel quadriculado ---------- */
+html {
+  min-height: 100%;
+  background-color: #ebe5f8;
+  background-image:
+    linear-gradient(rgba(184, 107, 217, 0.28) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(107, 217, 154, 0.28) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* ---------- Container das formas ---------- */
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ---------- Forma base ---------- */
+.background__shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  aspect-ratio: 1;
+  background-color: #5b3fc4;
+  border: 3px solid #1a1226;
+  will-change: transform;
+}
+
+/* ---------- Variações ---------- */
+.background__shape--circle {
+  width: clamp(52px, 11.5vw, 120px);
+  border-radius: 50%;
+}
+
+.background__shape--square-a {
+  width: clamp(80px, 18vw, 190px);
+  border-radius: 22%;
+}
+
+.background__shape--square-b {
+  width: clamp(90px, 22vw, 230px);
+  border-radius: 20%;
+}
+
+.background__shape--square-c {
+  width: clamp(60px, 11vw, 120px);
+  border-radius: 22%;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px) {
+  .background__shape--square-c {
+    display: none;
+  }
+}
