@@ -1,0 +1,1120 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ENUMS PARA ÂMBITO ESTUDANTIL
+enum RoleCode {
+  // Cria um atributo fácil de se aplicar aos usuários, e ao mesmo tempo, herda as permissões.
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum EnrollmentStatus {
+  COMPLETED
+  WAITLIST
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+}
+
+enum SessionStatus {
+  SCHEDULED
+  POSTPONED
+  CANCELLED
+  COMPLETED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  JUSTIFIED_ABSENCE
+}
+
+enum SubmissionMode {
+  INDIVIDUAL
+  GROUP
+}
+
+// ENUMS PARA ÂMBITO DE ORGANIZAÇÃO
+enum OrganizationVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum OrganizationJoinPolicy {
+  OPEN
+  APPROVAL
+  INVITE_ONLY
+}
+
+enum OrganizationMemberStatus {
+  ACTIVE
+  LEFT
+  REMOVED
+}
+
+enum OrganizationPermissionCode {
+  MANAGE_ORGANIZATION
+  MANAGE_MEMBERS
+  INVITE_MEMBERS
+  MANAGE_ROLES
+  CREATE_CHANNELS
+  MANAGE_CHANNELS
+  SEND_MESSAGES
+  ATTACH_FILES
+  MANAGE_MESSAGES
+  CREATE_PROJECTS
+  MANAGE_PROJECTS
+  MANAGE_TASKS
+}
+
+enum ChannelPermissionCode {
+  VIEW_CHANNEL
+  SEND_MESSAGES
+  ATTACH_FILES
+  MANAGE_CHANNEL
+}
+
+enum OrganizationJoinRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+// ENUMS PARA ÂMBITO DE PROJETOS
+
+enum ProjectVisibility {
+  PRIVATE
+  ORGANIZATION
+  PUBLIC
+}
+
+enum ProjectMemberStatus {
+  ACTIVE
+  LEFT
+  REMOVED
+}
+
+enum ProjectPermissionCode {
+  MANAGE_PROJECT
+  MANAGE_MEMBERS
+  INVITE_COLLABORATORS
+  EDIT_DESCRIPTION
+  UPLOAD_FILES
+  DELETE_FILES
+  MANAGE_VERSIONS
+  MANAGE_TASKS
+  REVIEW_CONTRIBUTIONS
+  PUBLISH_PROJECT
+  VIEW_HISTORY
+}
+
+enum ProjectContributionStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
+
+enum WorkItemStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  CANCELLED
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  cpf       String   @unique
+  phone     String
+  password  String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  // Relacionamento M:M que diz quais funções o usuário exerce.
+  userRoles UserRole[]
+
+  // Relacionamento M:1 que dita a relação do usuário com as matrículas (Um aluno pode ter várias matrículas em vários cursos. Uma matrícula só pode pertencer a um usuário.)
+  enrollments Enrollment[]
+
+  // Relacionamento 1:M que dita a relação do usuário de nível professor com as aulas (Um professor pode ser responsável por várias turmas, mas uma turma só pertence a um professor.)
+  responsibleClasses ClassGroup[] @relation("ResponsibleTeacher")
+
+  // Relacionamento "Coringa" que diz se o usuário é autor de qualquer conteúdo criado na turma.
+  createdContents LearningContent[] @relation("ContentAuthor")
+
+  // Organizações
+  ownedOrganizations Organization[] @relation("OrganizationOwner")
+  createdOrganizations Organization[] @relation("OrganizationCreator")
+  organizationMemberships OrganizationMember[]
+  organizationJoinRequests OrganizationJoinRequest[] @relation("OrganizationJoinRequester")
+  organizationInvitesReceived OrganizationInvite[] @relation("OrganizationInviteTargetUser")
+
+  // Mensagens privadas (DM entre exatamente duas pessoas)
+  directConversationsAsA DirectConversation[] @relation("DirectConversationUserA")
+  directConversationsAsB DirectConversation[] @relation("DirectConversationUserB")
+  directMessages DirectMessage[] @relation("DirectMessageAuthor")
+  channelMessageMentions ChannelMessageMention[]
+
+  // Projetos
+  ownedProjects Project[] @relation("ProjectUserOwner")
+  createdProjects Project[] @relation("ProjectCreator")
+  projectMemberships ProjectMember[]
+  projectVersionsCreated ProjectVersion[] @relation("ProjectVersionCreator")
+  projectFilesUploaded ProjectFile[] @relation("ProjectFileUploader")
+  projectContributionRequestsCreated ProjectContributionRequest[] @relation("ContributionRequester")
+  projectContributionRequestsReviewed ProjectContributionRequest[] @relation("ContributionReviewer")
+  projectTaskCreations ProjectTask[] @relation("ProjectTaskCreator")
+  projectLikes ProjectLike[]
+  projectFavorites ProjectFavorite[]
+  projectEvents ProjectEvent[] @relation("ProjectEventActor")
+}
+
+model ClassGroup {
+  // Atributos integros e independentes da turma.
+  id          Int      @id @default(autoincrement())
+  name        String
+  code        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+
+  // Atributo associativo com seu professor.
+  teacherId Int?
+
+  // Relacionamento M:1 que dita a relação de turmas com matrículas (Uma turma pode ter várias matrículas, mas uma matrícula específica só pode pertencer a uma turma.)
+  enrolledIn Enrollment[]
+
+  // Relacionamento de professor responsável e sua classe.
+  teacher User? @relation("ResponsibleTeacher", fields: [teacherId], references: [id], onDelete: SetNull)
+
+  // Matérias oferecidas especificamente nesta turma.
+  classSubjects ClassSubject[]
+
+  // Materiais educacionais disponíveis para a turma.
+  learningContents LearningContent[]
+
+  // Encontros associados à turma.
+  sessions ClassSession[]
+
+  // Índices das chaves estrangeiras
+  @@index([teacherId])
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  code        RoleCode @unique // Escolhe a função que receberá as seguintes permissões.
+  description String?
+
+  // Permissões
+  canManageUsers       Boolean @default(false)
+  canCreateClassGroups Boolean @default(false)
+  canCreateActivities  Boolean @default(false)
+
+  userRoles UserRole[]
+}
+
+model UserRole {
+  userId     Int
+  roleId     Int
+  assignedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId]) // Impede que a mesma função seja concedida pro mesmo usuário duas vezes.
+
+  // Índices das chaves estrangeiras
+  @@index([roleId])
+}
+
+model Enrollment {
+  // Atributos inerentes da matrícula
+  id          Int              @id @default(autoincrement()) // Identificação da matrícula.
+  status      EnrollmentStatus @default(ACTIVE)
+  createdAt   DateTime         @default(now())
+  activatedAt DateTime?
+
+  userId  Int // Identifica o usuário que essa matrícula pertence.
+  classId Int // Identifica a turma que essa matrícula pertence.
+
+  // Relacionamentos
+  user       User       @relation(fields: [userId], references: [id])
+  classGroup ClassGroup @relation(fields: [classId], references: [id])
+
+  // Participações do estudante em entregas individuais ou coletivas.
+  submissionMemberships SubmissionMember[]
+
+  // Registros de presença do estudante.
+  attendances Attendance[]
+
+  // Participação da matrícula em alguma organização.
+  organizations Organization[] @relation("OrganizationEnrollmentContext")
+  @@unique([userId, classId]) // Impede que o mesmo usuário se inscreva duas vezes na mesma turma.
+
+  // Índices das chaves estrangeiras
+  @@index([classId])
+}
+
+model Subject {
+  id          Int     @id @default(autoincrement())
+  code        String  @unique // Nome padronizado (MATH)
+  name        String // Nome a ser mostrado (Matemática)
+  description String?
+
+  // Ofertas desta matéria nas diferentes turmas.
+  classSubjects ClassSubject[]
+}
+
+// Tabela intermediária entre as matérias cobertas pela turma
+model ClassSubject {
+  id           Int      @id @default(autoincrement())
+  classGroupId Int
+  subjectId    Int
+  createdAt    DateTime @default(now())
+
+  // A turma em que a matéria é oferecida.
+  classGroup ClassGroup @relation(fields: [classGroupId], references: [id], onDelete: Cascade)
+
+  // A matéria do catálogo.
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+
+  // Conteúdos relacionados especificamente a esta matéria na turma.
+  learningContents LearningContent[]
+
+  // Atividades que serão contabilizadas nesta matéria.
+  activities Activity[]
+
+  // Encontros relacionados a esta matéria.
+  sessions ClassSession[]
+
+  // Impede cadastrar a mesma matéria duas vezes na mesma turma.
+  @@unique([classGroupId, subjectId])
+
+  // Índices das chaves estrangeiras
+  @@index([subjectId])
+}
+
+model LearningContent {
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Todo conteúdo pertence a uma turma.
+  classGroupId Int
+
+  // A matéria é opcional: o conteúdo pode ser geral.
+  classSubjectId Int?
+
+  // Quem cadastrou o conteúdo.
+  createdById Int?
+
+  // A que turma esse conteúdo sendo enviado?
+  classGroup ClassGroup @relation(fields: [classGroupId], references: [id], onDelete: Cascade)
+
+  // A que matéria esse conteúdo é relacionado?
+  classSubject ClassSubject? @relation(fields: [classSubjectId], references: [id], onDelete: SetNull)
+
+  // Quem enviou esse conteúdo?
+  createdBy User? @relation("ContentAuthor", fields: [createdById], references: [id], onDelete: SetNull)
+
+  // Arquivos e links associados ao material. (Relacionamento para conter vários uploads.)
+  attachments ContentAttachment[]
+
+  // Índices das chaves estrangeiras
+  @@index([classGroupId])
+  @@index([classSubjectId])
+  @@index([createdById])
+}
+
+model ContentAttachment {
+  id        Int      @id @default(autoincrement())
+  fileName  String
+  url       String
+  mimeType  String?
+  createdAt DateTime @default(now())
+  contentId Int
+
+  content LearningContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  // Índices das chaves estrangeiras
+  @@index([contentId])
+}
+
+model ClassSession {
+  id             Int           @id @default(autoincrement())
+  title          String
+  description    String?
+  scheduledStart DateTime
+  scheduledEnd   DateTime
+  meetingUrl     String?
+  status         SessionStatus @default(SCHEDULED)
+  createdAt      DateTime      @default(now())
+
+  // Todo encontro pertence a uma turma.
+  classGroupId Int
+
+  // O encontro pode estar associado a uma matéria específica.
+  classSubjectId Int?
+
+  // A que turma a aula pertence?
+  classGroup   ClassGroup    @relation(fields: [classGroupId], references: [id], onDelete: Cascade)
+  // A que matéria a aula pode pertencer?
+  classSubject ClassSubject? @relation(fields: [classSubjectId], references: [id], onDelete: SetNull)
+
+  // Registros de presença deste encontro.
+  attendances Attendance[]
+
+  // Índices das chaves estrangeiras
+  @@index([classGroupId])
+  @@index([classSubjectId])
+}
+
+model Activity {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  createdAt   DateTime  @default(now())
+  dueAt       DateTime?
+
+  // Define se o sistema aceitará entregas após o prazo.
+  allowLateSubmissions Boolean @default(false)
+
+  // A nota máxima da atividade.
+  maxPoints Decimal @default(100) @db.Decimal(5, 2)
+
+  // A atividade pode ser individual ou coletiva.
+  submissionMode SubmissionMode @default(INDIVIDUAL)
+
+  // A atividade começa não publicada.
+  isPublished Boolean @default(false)
+
+  classSubjectId Int
+
+  // Que matéria aquela lição está avaliando dentro das matérias presentes daquela turma?
+  classSubject ClassSubject @relation(fields: [classSubjectId], references: [id], onDelete: Restrict)
+
+  // Entregas feitas para esta atividade.
+  submissions Submission[]
+
+  // Índices das chaves estrangeiras
+  @@index([classSubjectId])
+}
+
+model Submission {
+  id          Int      @id @default(autoincrement())
+  submittedAt DateTime @default(now())
+
+  // Resposta textual, quando aplicável.
+  textAnswer String?
+
+  // Nota compartilhada pelos integrantes desta entrega.
+  grade Decimal? @db.Decimal(5, 2)
+
+  // Feedback do professor.
+  feedback String?
+
+  activityId Int
+
+  // A que atividade essas entregas estão relacionadas?
+  activity Activity @relation(fields: [activityId], references: [id], onDelete: Restrict)
+
+  // Estudantes que participam desta entrega. (Para projetos em grupo.)
+  members SubmissionMember[]
+
+  // Arquivos enviados.
+  attachments SubmissionAttachment[]
+
+  // Necessário para a relação composta usada em SubmissionMember.
+  @@unique([id, activityId])
+
+  // Índices das chaves estrangeiras
+  @@index([activityId])
+}
+
+// Tabela intermediária totalmente focado no caso de lições/projetos em grupo.
+model SubmissionMember {
+  submissionId Int
+  activityId   Int
+  enrollmentId Int
+
+  // Que entrega pertence a essa atividade em grupo?
+  submission Submission @relation(fields: [submissionId, activityId], references: [id, activityId], onDelete: Cascade)
+  // Que matrícula está relacionada com essa entrega?
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  // Impede duplicar o mesmo integrante dentro da mesma entrega.
+  @@id([submissionId, enrollmentId])
+  // Um estudante não pode integrar duas entregas da mesma atividade.
+  @@unique([activityId, enrollmentId])
+
+  // Índices das chaves estrangeiras
+  @@index([enrollmentId])
+}
+
+// Tabela intermediária que recebe as informações para os envios de entrega de lições.
+model SubmissionAttachment {
+  id Int @id @default(autoincrement())
+  fileName String
+  url      String
+  mimeType String?
+  uploadedAt DateTime @default(now())
+
+  submissionId Int
+
+  submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  // Índices das chaves estrangeiras
+  @@index([submissionId])
+}
+
+// Tabela que gerencia a relação de presença entre usuário e turma.
+model Attendance {
+  id         Int              @id @default(autoincrement())
+  status     AttendanceStatus
+  recordedAt DateTime         @default(now())
+
+  // Justificativa ou observação, quando necessária.
+  note String?
+
+  enrollmentId Int
+  sessionId    Int
+
+  // A qual matrícula essa presença é relacionada?
+  enrollment Enrollment   @relation(fields: [enrollmentId], references: [id], onDelete: Restrict)
+  // A que aula essa presença é relacionada?
+  session    ClassSession @relation(fields: [sessionId], references: [id], onDelete: Restrict)
+
+  // Uma matrícula só pode ter um registro de presença por encontro.
+  @@unique([enrollmentId, sessionId])
+
+  // Índices das chaves estrangeiras
+  @@index([sessionId])
+}
+
+model Organization {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  tags        String[] @default([])
+  visibility  OrganizationVisibility @default(PRIVATE)
+  joinPolicy  OrganizationJoinPolicy @default(INVITE_ONLY)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  // Responsável atual e autor original são conceitos diferentes.
+  ownerId     Int
+  createdById Int
+
+  // Contexto acadêmico opcional. Null significa organização independente.
+  contextEnrollmentId Int?
+
+  owner User @relation("OrganizationOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+  createdBy User @relation("OrganizationCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  contextEnrollment Enrollment? @relation("OrganizationEnrollmentContext", fields: [contextEnrollmentId], references: [id], onDelete: SetNull)
+
+  members      OrganizationMember[]
+  roles        OrganizationRole[]
+  invites      OrganizationInvite[]
+  joinRequests OrganizationJoinRequest[]
+  channels     OrganizationChannel[]
+  tasks        OrganizationTask[]
+  events       OrganizationEvent[]
+  projects     Project[]
+
+  @@index([ownerId])
+  @@index([contextEnrollmentId])
+  @@index([visibility, deletedAt])
+
+  // Índices das chaves estrangeiras
+  @@index([createdById])
+}
+
+model OrganizationMember {
+  id             Int      @id @default(autoincrement())
+  organizationId Int
+  userId         Int
+  roleId         Int
+  status         OrganizationMemberStatus @default(ACTIVE)
+  joinedAt       DateTime @default(now())
+  leftAt         DateTime?
+  removedAt      DateTime?
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Restrict)
+  role         OrganizationRole @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  permissionOverrides OrganizationMemberPermission[]
+  createdChannels     OrganizationChannel[]
+  authoredMessages    ChannelMessage[] @relation("ChannelMessageAuthor")
+  createdInvites      OrganizationInvite[]
+  reviewedJoinRequests OrganizationJoinRequest[] @relation("OrganizationJoinReviewer")
+  createdTasks        OrganizationTask[]
+  assignedTasks       OrganizationTaskAssignee[]
+  events              OrganizationEvent[]
+
+  @@unique([organizationId, userId])
+  @@index([userId, status])
+  @@index([organizationId, status])
+
+  // Índices das chaves estrangeiras
+  @@index([roleId])
+}
+
+model OrganizationRole {
+  id             Int      @id @default(autoincrement())
+  organizationId Int
+  name           String
+  description    String?
+  isDefault      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  members      OrganizationMember[]
+  permissions  OrganizationRolePermission[]
+  channelPermissions OrganizationChannelRolePermission[]
+
+  @@unique([organizationId, name])
+  @@index([organizationId, isDefault])
+}
+
+model OrganizationRolePermission {
+  roleId     Int
+  permission OrganizationPermissionCode
+  allowed    Boolean @default(true)
+
+  role OrganizationRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permission])
+}
+
+model OrganizationMemberPermission {
+  memberId   Int
+  permission OrganizationPermissionCode
+  allowed    Boolean
+
+  member OrganizationMember @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@id([memberId, permission])
+}
+
+model OrganizationInvite {
+  id              Int      @id @default(autoincrement())
+  organizationId  Int
+  createdByMemberId Int
+
+  // Se targetUserId e targetEmail forem null, o convite representa um link compartilhável.
+  targetUserId Int?
+  targetEmail  String?
+  tokenHash    String   @unique
+  maxUses      Int?
+  useCount     Int      @default(0)
+  expiresAt    DateTime?
+  revokedAt    DateTime?
+  createdAt    DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdBy OrganizationMember @relation(fields: [createdByMemberId], references: [id], onDelete: Restrict)
+  targetUser User? @relation("OrganizationInviteTargetUser", fields: [targetUserId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, revokedAt])
+  @@index([targetUserId])
+
+  // Índices das chaves estrangeiras
+  @@index([createdByMemberId])
+}
+
+model OrganizationJoinRequest {
+  id             Int      @id @default(autoincrement())
+  organizationId Int
+  userId         Int
+  message        String?
+  status         OrganizationJoinRequestStatus @default(PENDING)
+  requestedAt    DateTime @default(now())
+  resolvedAt     DateTime?
+  reviewedByMemberId Int?
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user User @relation("OrganizationJoinRequester", fields: [userId], references: [id], onDelete: Restrict)
+  reviewedBy OrganizationMember? @relation("OrganizationJoinReviewer", fields: [reviewedByMemberId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId, userId, status])
+
+  // Índices das chaves estrangeiras
+  @@index([userId])
+  @@index([reviewedByMemberId])
+}
+
+// ============================================================
+// CANAIS E MENSAGENS
+// ============================================================
+
+model OrganizationChannel {
+  id             Int      @id @default(autoincrement())
+  organizationId Int
+  createdByMemberId Int
+  name           String
+  description    String?
+  isPrivate      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  archivedAt     DateTime?
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdBy OrganizationMember @relation(fields: [createdByMemberId], references: [id], onDelete: Restrict)
+  rolePermissions OrganizationChannelRolePermission[]
+  messages ChannelMessage[]
+
+  @@unique([organizationId, name])
+  @@index([organizationId, archivedAt])
+
+  // Índices das chaves estrangeiras
+  @@index([createdByMemberId])
+}
+
+model OrganizationChannelRolePermission {
+  channelId  Int
+  roleId     Int
+  permission ChannelPermissionCode
+  allowed    Boolean @default(true)
+
+  channel OrganizationChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  role OrganizationRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([channelId, roleId, permission])
+
+  // Índices das chaves estrangeiras
+  @@index([roleId])
+}
+
+model ChannelMessage {
+  id             Int      @id @default(autoincrement())
+  channelId      Int
+  authorMemberId Int
+  content        String?
+  createdAt      DateTime @default(now())
+  editedAt       DateTime?
+  deletedAt      DateTime?
+
+  channel OrganizationChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  author OrganizationMember @relation("ChannelMessageAuthor", fields: [authorMemberId], references: [id], onDelete: Restrict)
+  attachments ChannelMessageAttachment[]
+  mentions ChannelMessageMention[]
+
+  @@index([channelId, createdAt])
+  @@index([authorMemberId])
+}
+
+model ChannelMessageAttachment {
+  id           Int      @id @default(autoincrement())
+  messageId    Int
+  originalName String
+  storageKey   String   @unique
+  mimeType     String?
+  sizeBytes    BigInt?
+  uploadedAt   DateTime @default(now())
+
+  message ChannelMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  // Índices das chaves estrangeiras
+  @@index([messageId])
+}
+
+model ChannelMessageMention {
+  messageId Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  message ChannelMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@id([messageId, userId])
+  @@index([userId, createdAt])
+}
+
+// DMs são sempre entre duas pessoas. userAI não pode ser o mesmo que o userBId;
+// o backend normaliza a ordem antes de criar a conversa.
+model DirectConversation {
+  id        Int      @id @default(autoincrement())
+  userAId   Int
+  userBId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userA User @relation("DirectConversationUserA", fields: [userAId], references: [id], onDelete: Restrict)
+  userB User @relation("DirectConversationUserB", fields: [userBId], references: [id], onDelete: Restrict)
+  messages DirectMessage[]
+
+  @@unique([userAId, userBId])
+  @@index([userBId])
+}
+
+model DirectMessage {
+  id             Int      @id @default(autoincrement())
+  conversationId Int
+  authorId       Int
+  content        String?
+  createdAt      DateTime @default(now())
+  editedAt       DateTime?
+  deletedAt      DateTime?
+
+  conversation DirectConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  author User @relation("DirectMessageAuthor", fields: [authorId], references: [id], onDelete: Restrict)
+  attachments DirectMessageAttachment[]
+
+  @@index([conversationId, createdAt])
+
+  // Índices das chaves estrangeiras
+  @@index([authorId])
+}
+
+model DirectMessageAttachment {
+  id           Int      @id @default(autoincrement())
+  messageId    Int
+  originalName String
+  storageKey   String   @unique
+  mimeType     String?
+  sizeBytes    BigInt?
+  uploadedAt   DateTime @default(now())
+
+  message DirectMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  // Índices das chaves estrangeiras
+  @@index([messageId])
+}
+
+// ============================================================
+// PROJETOS E COLABORAÇÃO
+// ============================================================
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  visibility  ProjectVisibility @default(PRIVATE)
+  allowDownload Boolean @default(false)
+  allowContributionRequests Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  // Autor original permanece mesmo após transferência de propriedade.
+  createdById Int
+
+  // Exatamente um dos dois deve ser preenchido:
+  // ownerUserId para projeto pessoal OU organizationId para projeto da organização.
+  ownerUserId    Int?
+  organizationId Int?
+
+  createdBy User @relation("ProjectCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  ownerUser User? @relation("ProjectUserOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  roles ProjectRole[]
+  members ProjectMember[]
+  versions ProjectVersion[]
+  contributionRequests ProjectContributionRequest[]
+  tasks ProjectTask[]
+  likes ProjectLike[]
+  favorites ProjectFavorite[]
+  events ProjectEvent[]
+
+  @@index([ownerUserId])
+  @@index([organizationId])
+  @@index([visibility, deletedAt])
+
+  // Índices das chaves estrangeiras
+  @@index([createdById])
+}
+
+model ProjectRole {
+  id          Int      @id @default(autoincrement())
+  projectId   Int
+  name        String
+  description String?
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  members ProjectMember[]
+  permissions ProjectRolePermission[]
+
+  @@unique([projectId, name])
+  @@index([projectId, isDefault])
+}
+
+model ProjectMember {
+  id        Int      @id @default(autoincrement())
+  projectId Int
+  userId    Int
+  roleId    Int
+  status    ProjectMemberStatus @default(ACTIVE)
+  joinedAt  DateTime @default(now())
+  leftAt    DateTime?
+  removedAt DateTime?
+  updatedAt DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  role ProjectRole @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  permissionOverrides ProjectMemberPermission[]
+  assignedTasks ProjectTaskAssignee[]
+
+  @@unique([projectId, userId])
+  @@index([userId, status])
+  @@index([projectId, status])
+
+  // Índices das chaves estrangeiras
+  @@index([roleId])
+}
+
+model ProjectRolePermission {
+  roleId     Int
+  permission ProjectPermissionCode
+  allowed    Boolean @default(true)
+
+  role ProjectRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permission])
+}
+
+model ProjectMemberPermission {
+  memberId   Int
+  permission ProjectPermissionCode
+  allowed    Boolean
+
+  member ProjectMember @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@id([memberId, permission])
+}
+
+// Cada versão representa um lote de atualização. Os arquivos atuais são
+// os registros ProjectFile com isCurrent = true; versões antigas permanecem.
+model ProjectVersion {
+  id            Int      @id @default(autoincrement())
+  projectId     Int
+  versionNumber Int
+  description   String?
+  createdById   Int
+  createdAt     DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdBy User @relation("ProjectVersionCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  files ProjectFile[]
+
+  @@unique([projectId, versionNumber])
+  @@index([projectId, createdAt])
+
+  // Índices das chaves estrangeiras
+  @@index([createdById])
+}
+
+model ProjectFile {
+  id           Int      @id @default(autoincrement())
+  versionId    Int
+  uploadedById Int
+  originalName String
+  storageKey   String   @unique
+  mimeType     String?
+  sizeBytes    BigInt?
+  isCurrent    Boolean  @default(true)
+  uploadedAt   DateTime @default(now())
+  removedAt    DateTime?
+
+  version ProjectVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  uploadedBy User @relation("ProjectFileUploader", fields: [uploadedById], references: [id], onDelete: Restrict)
+
+  @@index([versionId])
+  @@index([isCurrent, removedAt])
+
+  // Índices das chaves estrangeiras
+  @@index([uploadedById])
+}
+
+model ProjectContributionRequest {
+  id          Int      @id @default(autoincrement())
+  projectId   Int
+  requesterId Int
+  reviewedById Int?
+  message     String
+  status      ProjectContributionStatus @default(PENDING)
+  createdAt   DateTime @default(now())
+  reviewedAt  DateTime?
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  requester User @relation("ContributionRequester", fields: [requesterId], references: [id], onDelete: Restrict)
+  reviewedBy User? @relation("ContributionReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  attachments ProjectContributionAttachment[]
+
+  @@index([projectId, status, createdAt])
+  @@index([requesterId])
+
+  // Índices das chaves estrangeiras
+  @@index([reviewedById])
+}
+
+model ProjectContributionAttachment {
+  id           Int      @id @default(autoincrement())
+  requestId    Int
+  originalName String
+  storageKey   String   @unique
+  mimeType     String?
+  sizeBytes    BigInt?
+  uploadedAt   DateTime @default(now())
+
+  request ProjectContributionRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  // Índices das chaves estrangeiras
+  @@index([requestId])
+}
+
+// ============================================================
+// TAREFAS — LISTAS SEPARADAS PARA ORGANIZAÇÃO E PROJETO
+// ============================================================
+
+model OrganizationTask {
+  id                Int      @id @default(autoincrement())
+  organizationId    Int
+  createdByMemberId Int
+  title             String
+  description       String?
+  status            WorkItemStatus @default(TODO)
+  dueAt             DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdBy OrganizationMember @relation(fields: [createdByMemberId], references: [id], onDelete: Restrict)
+  assignees OrganizationTaskAssignee[]
+
+  @@index([organizationId, status])
+  @@index([dueAt])
+
+  // Índices das chaves estrangeiras
+  @@index([createdByMemberId])
+}
+
+model OrganizationTaskAssignee {
+  taskId   Int
+  memberId Int
+  assignedAt DateTime @default(now())
+
+  task OrganizationTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  member OrganizationMember @relation(fields: [memberId], references: [id], onDelete: Restrict)
+
+  @@id([taskId, memberId])
+
+  // Índices das chaves estrangeiras
+  @@index([memberId])
+}
+
+model ProjectTask {
+  id          Int      @id @default(autoincrement())
+  projectId   Int
+  createdById Int
+  title       String
+  description String?
+  status      WorkItemStatus @default(TODO)
+  dueAt       DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdBy User @relation("ProjectTaskCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  assignees ProjectTaskAssignee[]
+
+  @@index([projectId, status])
+  @@index([dueAt])
+
+  // Índices das chaves estrangeiras
+  @@index([createdById])
+}
+
+model ProjectTaskAssignee {
+  taskId   Int
+  memberId Int
+  assignedAt DateTime @default(now())
+
+  task ProjectTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  member ProjectMember @relation(fields: [memberId], references: [id], onDelete: Restrict)
+
+  @@id([taskId, memberId])
+
+  // Índices das chaves estrangeiras
+  @@index([memberId])
+}
+
+// ============================================================
+// INTERAÇÕES SIMPLES COM PROJETOS
+// ============================================================
+
+model ProjectLike {
+  projectId Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, userId])
+  @@index([userId, createdAt])
+}
+
+model ProjectFavorite {
+  projectId Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, userId])
+  @@index([userId, createdAt])
+}
+
+// ============================================================
+// HISTÓRICO / LOGS
+// ============================================================
+
+model OrganizationEvent {
+  id             Int      @id @default(autoincrement())
+  organizationId Int
+  actorMemberId  Int?
+  eventType      String
+  details        Json?
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  actor OrganizationMember? @relation(fields: [actorMemberId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId, createdAt])
+  @@index([actorMemberId])
+}
+
+model ProjectEvent {
+  id        Int      @id @default(autoincrement())
+  projectId Int
+  actorId   Int?
+  eventType String
+  details   Json?
+  createdAt DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  actor User? @relation("ProjectEventActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([projectId, createdAt])
+  @@index([actorId])
+}
