@@ -9,8 +9,8 @@ html {
   min-height: 100%;
   background-color: #ebe5f8;
   background-image:
-    linear-gradient(rgba(184, 107, 217, 0.28) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(107, 217, 154, 0.28) 1px, transparent 1px);
+    linear-gradient(rgba(107, 217, 155, 0.455) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(107, 217, 154, 0.455) 1px, transparent 1px);
   background-size: 36px 36px;
 }
 
