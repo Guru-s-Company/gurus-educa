@@ -242,15 +242,18 @@
   position: relative;
   z-index: 1;
   display: flex;
-  min-height: 100vh;
+  height: 100dvh;
   width: 100%;
+  overflow: hidden;
 }
 
 .app-content {
   flex: 1;
+  height: 100%;
   min-width: 0;
+  min-height: 0;
   padding: var(--spacing-lg);
-  overflow-x: hidden;
+  overflow: auto;
 }
 
 /* Barra de rolagem */

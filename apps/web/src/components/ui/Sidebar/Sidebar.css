@@ -20,8 +20,8 @@
   flex-shrink: 0;
   position: sticky;
   top: 0;
-  height: 100dvh;
-  min-height: 100vh;
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
   background-color: var(--roxo-apoio);
   color: var(--color-foreground);
