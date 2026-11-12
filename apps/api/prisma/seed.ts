@@ -1,5 +1,6 @@
 // Arquivo para dados iniciais do banco.
 import { prisma } from "../src/lib/prisma";
+import { hashPassword } from "../src/lib/auth";
 
 // Importação dos enums para uso.
 import {
@@ -19,26 +20,12 @@ import {
   ProjectPermissionCode,
   ProjectContributionStatus,
   WorkItemStatus,
+  EducationLevel,
 } from "../generated/prisma/enums";
 
-import { createHash, randomBytes, scrypt } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 
 import type { Prisma } from "../generated/prisma/client";
-
-function hashpasswordHash(passwordHash: string): Promise<string> {
-  const salt = randomBytes(16).toString("hex");
-
-  return new Promise((resolve, reject) => {
-    scrypt(passwordHash, salt, 64, (error, derivedKey) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-
-      resolve(`scrypt$${salt}$${derivedKey.toString("hex")}`);
-    });
-  });
-}
 
 // Criação de types e Seeds para usar o satisfies.
 
@@ -51,6 +38,7 @@ type UsuarioSeed = {
   createdAt: Date;
   isActive: boolean;
   roles: RoleCode[];
+  education?: EducationLevel;
 };
 
 type TurmaSeed = {
@@ -162,6 +150,7 @@ const usuarios = [
     isActive: true,
     createdAt: new Date("2026-11-02"),
     roles: [RoleCode.STUDENT],
+    education: EducationLevel.GRADUACAO,
   },
   {
     name: "Kauã Mariano",
@@ -172,6 +161,7 @@ const usuarios = [
     isActive: true,
     createdAt: new Date("2026-01-12"),
     roles: [RoleCode.STUDENT],
+    education: EducationLevel.ENSINO_MEDIO,
   },
   {
     name: "Ignácio Cunha",
@@ -182,6 +172,7 @@ const usuarios = [
     isActive: true,
     createdAt: new Date("2025-10-01"),
     roles: [RoleCode.TEACHER],
+    education: EducationLevel.POS_GRADUACAO,
   },
   {
     name: "Marcos Salsicha Alves",
@@ -192,6 +183,7 @@ const usuarios = [
     isActive: true,
     createdAt: new Date("2026-09-11"),
     roles: [RoleCode.TEACHER, RoleCode.ADMIN],
+    education: EducationLevel.GRADUACAO,
   },
   {
     name: "Beatriz Lima",
@@ -202,6 +194,7 @@ const usuarios = [
     isActive: true,
     createdAt: new Date("2026-11-03"),
     roles: [RoleCode.STUDENT],
+    education: EducationLevel.ENSINO_FUNDAMENTAL,
   },
 ] satisfies UsuarioSeed[];
 
@@ -1513,7 +1506,7 @@ async function main() {
   // 2. Usuários e funções
   for (const usuarioData of usuarios) {
     const { email, roles: funcoes, ...dadosUsuario } = usuarioData;
-    const senhaHash = await hashpasswordHash(dadosUsuario.passwordHash);
+    const senhaHash = await hashPassword(dadosUsuario.passwordHash);
     const dadosUsuarioComSenhaHash = {
       ...dadosUsuario,
       passwordHash: senhaHash,
