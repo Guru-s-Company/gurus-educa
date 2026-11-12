@@ -1,55 +1,25 @@
-import "./App.css";
-import { useState } from "react";
-import ActionButton from "./components/ui/Button/ActionButton";
-import CommunityCard from "./components/ui/Card/CommunityCard";
-import RegisterForm from "./components/ui/Form/RegisterForm";
-import SelectField from "./components/ui/Field/SelectField";
-import Sidebar from "./components/ui/Sidebar/Sidebar";
-import BackgroundShapes from "./components/Background/Background";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AppLayout from "./layouts/AppLayout";
+import Home from "./views/Home/Home";
+import Community from "./views/Community/Community";
+import Login from "./views/Login/Login";
+import Courses from "./views/Courses/Courses";
+import Achievements from "./views/Achievements/Achievements";
 
 function App() {
   return (
-    <>
-    <BackgroundShapes />
-      <main>
-        <SelectField
-          label="Curso"
-          name="curso"
-          options={[
-            { value: "dev", label: "Desenvolvimento" },
-            { value: "design", label: "Design" },
-            { value: "dados", label: "Dados" },
-          ]}
-          onChange={(value) => console.log(value)}
-        />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
 
-        <br />
-
-        <ActionButton className="fill">Click me</ActionButton>
-
-        <br />
-
-        <ActionButton className="outline">Click me</ActionButton>
-
-        <br />
-        <br />
-
-        <CommunityCard
-          title="My Community"
-          description="lorem  ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor. asfasfasfafafafasfafaffsasadscsfdf"
-          icon="/path/to/icon.svg"
-          imageUrl="/path/to/image.jpg"
-        />
-
-        <br />
-
-        <RegisterForm />
-
-        <br />
-      </main>
-
-      <Sidebar />
-    </>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/cursos" element={<Courses />} />
+          <Route path="/comunidades" element={<Community />} />
+          <Route path="/conquistas" element={<Achievements />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
