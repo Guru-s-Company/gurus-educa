@@ -136,7 +136,7 @@ model User {
   email     String   @unique
   cpf       String   @unique
   phone     String
-  password  String
+  passwordHash  String
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
 
@@ -177,6 +177,9 @@ model User {
   projectLikes ProjectLike[]
   projectFavorites ProjectFavorite[]
   projectEvents ProjectEvent[] @relation("ProjectEventActor")
+
+  // Autenticação.
+  refreshTokens RefreshToken[]
 }
 
 model ClassGroup {
@@ -185,6 +188,7 @@ model ClassGroup {
   name        String
   code        String   @unique
   description String?
+  capacity Int?
   createdAt   DateTime @default(now())
 
   // Atributo associativo com seu professor.
@@ -930,6 +934,7 @@ model ProjectFile {
   storageKey   String   @unique
   mimeType     String?
   sizeBytes    BigInt?
+  logicalPath String?
   isCurrent    Boolean  @default(true)
   uploadedAt   DateTime @default(now())
   removedAt    DateTime?
@@ -1117,4 +1122,24 @@ model ProjectEvent {
 
   @@index([projectId, createdAt])
   @@index([actorId])
+}
+
+// Validação de Token e autenticação.
+// Refresh token guardado só como hash. Renovado a cada uso; o antigo é revogado.
+model RefreshToken {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  tokenHash String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Consulta de sessões ativas do usuário e limpeza de expirados.
+  @@index([userId, revokedAt])
+  @@index([expiresAt])
+
+  // Índices das chaves estrangeiras
+  @@index([userId])
 }

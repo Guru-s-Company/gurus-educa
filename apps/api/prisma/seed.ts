@@ -25,11 +25,11 @@ import { createHash, randomBytes, scrypt } from "node:crypto";
 
 import type { Prisma } from "../generated/prisma/client";
 
-function hashPassword(password: string): Promise<string> {
+function hashpasswordHash(passwordHash: string): Promise<string> {
   const salt = randomBytes(16).toString("hex");
 
   return new Promise((resolve, reject) => {
-    scrypt(password, salt, 64, (error, derivedKey) => {
+    scrypt(passwordHash, salt, 64, (error, derivedKey) => {
       if (error) {
         reject(error);
         return;
@@ -47,7 +47,7 @@ type UsuarioSeed = {
   email: string;
   cpf: string;
   phone: string;
-  password: string;
+  passwordHash: string;
   createdAt: Date;
   isActive: boolean;
   roles: RoleCode[];
@@ -158,7 +158,7 @@ const usuarios = [
     email: "matheus.sbs03@gmail.com",
     cpf: "49219234858",
     phone: "11972762077",
-    password: "SenhaSuperReal",
+    passwordHash: "SenhaSuperReal",
     isActive: true,
     createdAt: new Date("2026-11-02"),
     roles: [RoleCode.STUDENT],
@@ -168,7 +168,7 @@ const usuarios = [
     email: "kaua.mariano@example.com",
     cpf: "22222222222",
     phone: "11900000002",
-    password: "HASH_DE_TESTE_SUBSTITUIR",
+    passwordHash: "HASH_DE_TESTE_SUBSTITUIR",
     isActive: true,
     createdAt: new Date("2026-01-12"),
     roles: [RoleCode.STUDENT],
@@ -178,7 +178,7 @@ const usuarios = [
     email: "ig@professor.senai.br",
     cpf: "12345678901",
     phone: "11400289222",
-    password: "SenhaDoSenaiGuardadaASeteChaves",
+    passwordHash: "SenhaDoSenaiGuardadaASeteChaves",
     isActive: true,
     createdAt: new Date("2025-10-01"),
     roles: [RoleCode.TEACHER],
@@ -188,7 +188,7 @@ const usuarios = [
     email: "chefao.senai@gmail.com",
     cpf: "98765432101",
     phone: "11999999999",
-    password: "SenhaDoMundo",
+    passwordHash: "SenhaDoMundo",
     isActive: true,
     createdAt: new Date("2026-09-11"),
     roles: [RoleCode.TEACHER, RoleCode.ADMIN],
@@ -198,7 +198,7 @@ const usuarios = [
     email: "beatriz.teste@example.com",
     cpf: "33333333333",
     phone: "11900000003",
-    password: "HASH_DE_TESTE_SUBSTITUIR",
+    passwordHash: "HASH_DE_TESTE_SUBSTITUIR",
     isActive: true,
     createdAt: new Date("2026-11-03"),
     roles: [RoleCode.STUDENT],
@@ -1513,10 +1513,10 @@ async function main() {
   // 2. Usuários e funções
   for (const usuarioData of usuarios) {
     const { email, roles: funcoes, ...dadosUsuario } = usuarioData;
-    const senhaHash = await hashPassword(dadosUsuario.password);
+    const senhaHash = await hashpasswordHash(dadosUsuario.passwordHash);
     const dadosUsuarioComSenhaHash = {
       ...dadosUsuario,
-      password: senhaHash,
+      passwordHash: senhaHash,
     };
 
     const usuario = await prisma.user.upsert({
