@@ -15,6 +15,7 @@ export default function Home() {
           title="Comunidade de Desenvolvimento"
           description="Aprenda, compartilhe e colabore com outros estudantes."
           imageUrl="/images/community-development.jpg"
+          to="/comunidades/1"
         />
       </section>
     </section>

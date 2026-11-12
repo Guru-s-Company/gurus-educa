@@ -1,11 +1,13 @@
 import "./CommunityCard.css";
 import Dot from "./Dot";
+import { Link } from "react-router-dom";
 
 /**
  * @typedef {Object} CommunityCardProps
  * @property {string} title - Card title
  * @property {string} description - Card description
  * @property {string} imageUrl - Image URL for header and icon
+ * @property {string} to - Route opened when the card is selected
  */
 
 /**
@@ -13,9 +15,9 @@ import Dot from "./Dot";
  * @param {CommunityCardProps} props
  * @returns {JSX.Element}
  */
-export default function CommunityCard({ title, description, imageUrl }) {
+export default function CommunityCard({ title, description, imageUrl, to }) {
   return (
-    <div className="community-card">
+    <Link className="community-card" to={to} aria-label={`Abrir comunidade ${title}`}>
       <div className="community-card__header">
         <img
           src={imageUrl}
@@ -55,6 +57,6 @@ export default function CommunityCard({ title, description, imageUrl }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

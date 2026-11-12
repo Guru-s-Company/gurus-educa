@@ -1,36 +1,10 @@
 import { useState } from "react";
 import CommunityCard from "../../components/ui/Card/CommunityCard";
+import {
+  communities as myCommunities,
+  discoverCommunities,
+} from "../../data/communities";
 import "./Community.css";
-
-const myCommunities = [
-  {
-    id: 1,
-    title: "Desenvolvimento Web",
-    description: "Aprenda frontend, backend e boas práticas de programação.",
-    imageUrl: "/images/development.jpg",
-  },
-  {
-    id: 2,
-    title: "Design e UX",
-    description: "Compartilhe referências, projetos e conhecimentos de design.",
-    imageUrl: "/images/design.jpg",
-  },
-];
-
-const discoverCommunities = [
-  {
-    id: 3,
-    title: "Desenvolvimento Web",
-    description: "Aprenda frontend, backend e boas práticas de programação.",
-    imageUrl: "/images/development.jpg",
-  },
-  {
-    id: 4,
-    title: "Design e UX",
-    description: "Compartilhe referências, projetos e conhecimentos de design.",
-    imageUrl: "/images/design.jpg",
-  },
-];
 
 function CommunityGrid({ communities }) {
   return (
@@ -41,6 +15,7 @@ function CommunityGrid({ communities }) {
           title={community.title}
           description={community.description}
           imageUrl={community.imageUrl}
+          to={`/comunidades/${community.id}`}
         />
       ))}
     </div>
