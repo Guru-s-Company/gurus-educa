@@ -5,6 +5,7 @@ import Community from "./views/Community/Community";
 import Login from "./views/Login/Login";
 import Courses from "./views/Courses/Courses";
 import Achievements from "./views/Achievements/Achievements";
+import CommunityServer from "./views/CommunityServer/CommunityServer";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/cursos" element={<Courses />} />
           <Route path="/comunidades" element={<Community />} />
+          <Route path="/comunidades/:communityId" element={<CommunityServer />} />
           <Route path="/conquistas" element={<Achievements />} />
         </Route>
       </Routes>
