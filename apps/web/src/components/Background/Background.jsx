@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import "./background.css";
+import "./Background.css";
 
 /*
   Formas que vagam de forma aleatória e, ao sair por um lado da tela,
@@ -15,6 +15,8 @@ const SHAPES = [
   { name: "square-b", rot: -12, shadow: true },
   { name: "square-c", rot: 35, shadow: true },
   { name: "circle", rot: 0, shadow: true },
+  { name: "triangle", rot: 0, shadow: true },
+  { name: "triangle", rot: 45, shadow: true },
 ];
 
 // Ajuste aqui a "energia" do movimento
@@ -63,12 +65,16 @@ export default function BackgroundShapes() {
         rot: shape.rot,
         spin: (Math.random() < 0.5 ? -1 : 1) * rand(SPIN.min, SPIN.max),
         size: 0,
+        height: 0,
       };
     });
 
     const measure = () => {
       refs.current.forEach((el, i) => {
-        if (el) states[i].size = el.offsetWidth; // 0 quando display: none
+        if (el) {
+          states[i].size = el.offsetWidth;
+          states[i].height = el.offsetHeight;
+        }
       });
     };
 
@@ -78,10 +84,10 @@ export default function BackgroundShapes() {
         if (!el || !s.size) return;
 
         el.style.transform = `translate(${s.x - s.size / 2}px, ${
-          s.y - s.size / 2
+          s.y - s.height / 2
         }px) rotate(${s.rot}deg)`;
 
-        if (SHAPES[i].shadow) {
+        if (SHAPES[i].shadow && SHAPES[i].name !== "triangle") {
           // Desfaz a rotação no vetor da sombra: ela fica sempre p/ baixo-direita
           const t = (s.rot * Math.PI) / 180;
           const d = SHADOW_DISTANCE;
@@ -139,7 +145,7 @@ export default function BackgroundShapes() {
         s.rot += s.spin * dt;
 
         // Wrap: só teleporta quando a forma já saiu totalmente da tela
-        const margin = s.size;
+        const margin = Math.max(s.size, s.height);
         s.x = wrap(s.x, -margin, width + margin);
         s.y = wrap(s.y, -margin, height + margin);
       });
