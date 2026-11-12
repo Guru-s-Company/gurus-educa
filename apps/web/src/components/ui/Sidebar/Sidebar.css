@@ -18,7 +18,10 @@
   justify-content: space-between;
   gap: 0.5rem;
   flex-shrink: 0;
-  height: 100vh;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  min-height: 100vh;
   overflow: hidden;
   background-color: var(--roxo-apoio);
   color: var(--color-foreground);
@@ -161,6 +164,8 @@
 
   .sidebar-footer__item {
     text-align: left;
+    transition: all var(--sidebar-color-transition);
+
   }
 
 
@@ -169,11 +174,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--color-background);
 
     flex: 0 0 var(--icon-size);
     width: var(--icon-size);
     aspect-ratio: 1 / 1;
     color: inherit;
+
   }
 
 }
@@ -290,6 +297,10 @@
         .sidebar-icon {
           box-shadow: none;
         }
+      }
+
+      .sidebar-icon{
+        background-color: var(--color-verde-suave);
       }
     }
     .sidebar-label {
