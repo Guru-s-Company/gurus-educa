@@ -41,6 +41,13 @@ enum SubmissionMode {
   GROUP
 }
 
+enum EducationLevel {
+  ENSINO_FUNDAMENTAL
+  ENSINO_MEDIO
+  GRADUACAO
+  POS_GRADUACAO
+}
+
 // ENUMS PARA ÂMBITO DE ORGANIZAÇÃO
 enum OrganizationVisibility {
   PUBLIC
@@ -138,6 +145,7 @@ model User {
   phone     String
   passwordHash  String
   isActive  Boolean  @default(true)
+  education EducationLevel?
   createdAt DateTime @default(now())
 
   // Relacionamento M:M que diz quais funções o usuário exerce.
