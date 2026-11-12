@@ -253,9 +253,8 @@ export class AuthService {
     return { accessToken, refreshToken: newRefreshToken };
   }
 
-  /**
-   * Logout - revoga refresh token específico
-   */
+  // Logout - revoga refresh token específico
+  
   async logout(refreshToken: string): Promise<void> {
     const tokenHash = hashRefreshToken(refreshToken);
 
@@ -265,9 +264,8 @@ export class AuthService {
     });
   }
 
-  /**
-   * Busca usuário por ID com roles (para middleware)
-   */
+  // Busca usuário por ID com roles (para middleware)
+
   async getUserById(userId: number) {
     return prisma.user.findUnique({
       where: { id: userId },
@@ -275,9 +273,7 @@ export class AuthService {
     });
   }
 
-  /**
-   * Limpa tokens expirados/revogados (job de manutenção)
-   */
+  // Limpa tokens expirados/revogados (evita abuso de token expirado.)
   async cleanupExpiredTokens(): Promise<number> {
     const result = await prisma.refreshToken.deleteMany({
       where: {
