@@ -1,6 +1,6 @@
-import CommunityCard from "../../components/ui/Card/CommunityCard";
+import CommunityCard from "../../../app/components/ui/Card/CommunityCard";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <section className="home-page">
       <header>
@@ -10,7 +10,6 @@ export default function Home() {
 
       <section>
         <h2>Suas comunidades</h2>
-
         <CommunityCard
           title="Comunidade de Desenvolvimento"
           description="Aprenda, compartilhe e colabore com outros estudantes."
@@ -20,4 +19,4 @@ export default function Home() {
       </section>
     </section>
   );
-}   
+}

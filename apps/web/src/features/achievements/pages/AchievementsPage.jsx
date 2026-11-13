@@ -1,4 +1,4 @@
-export default function Achievements() {
+export default function AchievementsPage() {
   return (
     <section className="achievements-page">
       <header>
