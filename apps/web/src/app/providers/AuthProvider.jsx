@@ -52,6 +52,20 @@ export default function AuthProvider({ children }) {
     }
   }, []);
 
+  const updateUser = useCallback((updates) => {
+    setSession((currentSession) => {
+      if (!currentSession?.user) return currentSession;
+
+      return {
+        ...currentSession,
+        user: {
+          ...currentSession.user,
+          ...updates,
+        },
+      };
+    });
+  }, []);
+
   const logout = useCallback(async (options) => {
     if (!session) {
       return;
@@ -76,9 +90,10 @@ export default function AuthProvider({ children }) {
       login,
       register,
       refresh,
+      updateUser,
       logout,
     }),
-    [error, login, logout, refresh, register, session, status],
+    [error, login, logout, refresh, register, session, status, updateUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
