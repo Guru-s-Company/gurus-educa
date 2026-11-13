@@ -1,0 +1,21 @@
+.register-page {
+  display: grid;
+  width: min(100%, 42rem);
+  min-height: 100%;
+  margin: 0 auto;
+  align-content: center;
+  gap: var(--spacing-md);
+
+  &__error {
+    margin: 0;
+    color: var(--perigo);
+    font-weight: 700;
+    text-align: center;
+  }
+
+  &__login-link {
+    color: var(--roxo-forte);
+    font-weight: 700;
+    text-align: center;
+  }
+}

@@ -1,0 +1,13 @@
+.public-layout {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    min-height: 100dvh;
+    padding: var(--spacing-lg);
+  }
+}
