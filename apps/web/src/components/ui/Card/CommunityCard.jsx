@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
  */
 
 /**
- * CommunityCard - A card component for displaying community information.
  * @param {CommunityCardProps} props
  * @returns {JSX.Element}
  */

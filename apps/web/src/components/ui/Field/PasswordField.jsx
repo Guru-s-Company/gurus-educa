@@ -21,8 +21,6 @@ import { useFieldIds, cn } from "../../../lib/helpers";
  */
 
 /**
- * PasswordField component - An accessible password input with show/hide toggle.
- * Supports both controlled and uncontrolled modes.
  * @param {PasswordFieldProps} props
  * @returns {JSX.Element}
  */

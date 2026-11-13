@@ -29,7 +29,6 @@ import { useFieldIds, cn } from "../../../lib/helpers";
  */
 
 /**
- * SelectField component - An accessible combobox select with keyboard navigation.
  * @param {SelectFieldProps} props
  * @returns {JSX.Element}
  */
@@ -65,14 +64,12 @@ export default function SelectField({
   const triggerRef = useRef(null);
   const listRef = useRef(null);
 
-  // Memoize selectedIndex since options and current change infrequently
   const selectedIndex = useMemo(
     () => options.findIndex((o) => o.value === current),
     [options, current]
   );
   const selected = selectedIndex >= 0 ? options[selectedIndex] : null;
 
-  // próximo índice habilitado (circular) na direção dir (1 ou -1)
   const nextEnabled = useCallback((from, dir) => {
     const len = options.length;
     let i = from < 0 ? (dir > 0 ? -1 : 0) : from;
@@ -113,7 +110,6 @@ export default function SelectField({
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [open, closeMenu]);
 
-  // mantém a opção ativa visível ao navegar pelo teclado
   useEffect(() => {
     if (!open || activeIndex < 0) return;
     listRef.current?.children[activeIndex]?.scrollIntoView({ block: "nearest" });
@@ -155,7 +151,6 @@ export default function SelectField({
         break;
       }
       default: {
-        // type-ahead: pula para a próxima opção que começa com a letra digitada
         if (e.key.length === 1 && /\S/.test(e.key)) {
           const k = e.key.toLowerCase();
           for (let n = 1; n <= options.length; n++) {

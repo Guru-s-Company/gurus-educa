@@ -10,7 +10,6 @@ import ActionButton from "../Button/ActionButton.jsx";
 import { GithubIcon, GoogleIcon } from "../Icon/Icon.jsx";
 
 /**
- * Textos constantes do formulário de registro
  * @type {Object}
  */
 const REGISTER_FORM_TEXTS = {
@@ -42,7 +41,6 @@ const REGISTER_FORM_TEXTS = {
 };
 
 /**
- * Ações do reducer para a máquina de estados de transição
  * @readonly
  * @enum {string}
  */
@@ -53,7 +51,6 @@ const TransitionAction = {
 };
 
 /**
- * Estado inicial da transição
  * @type {Object}
  */
 const initialTransitionState = {
@@ -62,7 +59,6 @@ const initialTransitionState = {
 };
 
 /**
- * Reducer para a máquina de estados de transição do formulário
  * @param {Object} state - Estado atual
  * @param {Object} action - Ação a ser executada
  * @returns {Object} Novo estado
@@ -102,7 +98,6 @@ function transitionReducer(state, action) {
 }
 
 /**
- * Componente RegisterForm - Formulário de registro em duas etapas com transição animada
  * @component
  * @param {Object} props - Props do componente
  * @param {Function} [props.onSubmit] - Callback chamado ao submeter a etapa 2 com formData completo
@@ -126,7 +121,6 @@ function RegisterForm({ onSubmit, onGithubClick = () => { /* TODO(futuro): OAuth
     const { phase: transitionPhase, targetStep } = transitionState;
 
     /**
-     * Atualiza um campo específico do formData
      * @param {string} name - Nome do campo
      * @param {string} value - Valor do campo
      */
@@ -135,7 +129,6 @@ function RegisterForm({ onSubmit, onGithubClick = () => { /* TODO(futuro): OAuth
     }
 
     /**
-     * Inicia a transição para a próxima etapa
      * @param {number} nextStep - Índice da próxima etapa
      */
     function startStepTransition(nextStep) {
@@ -143,11 +136,9 @@ function RegisterForm({ onSubmit, onGithubClick = () => { /* TODO(futuro): OAuth
     }
 
     /**
-     * Manipula o fim da transição CSS
-     * @param {TransitionEvent} event - Evento de transição
+     * @param {TransitionEvent} event
      */
     function handleTransitionEnd(event) {
-        // Ignora eventos de outros elementos ou propriedades CSS.
         if (
             event.target !== event.currentTarget ||
             event.propertyName !== "clip-path"
@@ -156,20 +147,17 @@ function RegisterForm({ onSubmit, onGithubClick = () => { /* TODO(futuro): OAuth
         }
 
         if (transitionPhase === "expanding" && targetStep !== null) {
-            // O formulário já está coberto: podemos trocar os campos.
             setCurrentStep(targetStep);
             dispatch({ type: TransitionAction.EXPAND_END });
             return;
         }
 
         if (transitionPhase === "contracting") {
-            // A animação acabou. O formulário está pronto para interação.
             dispatch({ type: TransitionAction.CONTRACT_END });
         }
     }
 
     /**
-     * Manipula o submit do formulário
      * @param {SubmitEvent} event - Evento de submit
      */
     function handleSubmit(event) {

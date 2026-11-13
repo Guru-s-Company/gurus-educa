@@ -1,8 +1,3 @@
-/**
- * RegisterForm - Two-step registration form with circular transition
- * BEM naming: .register-form (root), .register-form__element
- */
-
 .register-form {
   width: 700px;
   height: 500px;

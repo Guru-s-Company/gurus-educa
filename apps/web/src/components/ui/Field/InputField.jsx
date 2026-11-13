@@ -19,7 +19,6 @@ import { useFieldIds, cn } from "../../../lib/helpers";
  */
 
 /**
- * InputField - A flexible, accessible input component. Supports both controlled and uncontrolled modes.
  * @param {InputFieldProps} props
  * @returns {JSX.Element}
  */

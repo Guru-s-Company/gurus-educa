@@ -12,7 +12,6 @@ import { cn } from "../../../lib/helpers";
  */
 
 /**
- * ActionButton - A versatile button component with fill and outline variants.
  * @param {ActionButtonProps} props
  * @returns {JSX.Element}
  */
