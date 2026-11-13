@@ -1,9 +1,3 @@
-/* ==========================================================
-   Background neobrutalista — Guru's Educa
-   Sem :root. O quadriculado é CSS puro; as formas são elementos
-   reais (BackgroundShapes.jsx), movidos por JS.
-   ========================================================== */
-
 /* ---------- Base: papel quadriculado ---------- */
 html {
   min-height: 100%;
@@ -27,6 +21,11 @@ body {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+}
+
+/* O fundo ocupa a mesma área do layout, mas nunca deve cobrir seus filhos. */
+.app-layout > :not(.background) {
+  z-index: 1;
 }
 
 /* ---------- Forma base ---------- */

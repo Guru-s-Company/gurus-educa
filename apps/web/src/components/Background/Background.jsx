@@ -1,14 +1,6 @@
 import { useEffect, useRef } from "react";
 import "./Background.css";
 
-/*
-  Formas que vagam de forma aleatória e, ao sair por um lado da tela,
-  reaparecem pelo lado oposto (efeito "Pac-Man").
-
-  - x / y: posição inicial (fração da tela, centro da forma)
-  - rot:   rotação inicial em graus
-  - shadow: true = sombra dura que se mantém apontando p/ baixo-direita
-*/
 const SHAPES = [
   { name: "circle", rot: 0, shadow: true },
   { name: "square-a", rot: 32, shadow: true },
