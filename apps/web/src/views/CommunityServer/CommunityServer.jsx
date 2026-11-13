@@ -5,6 +5,7 @@ import "./CommunityServer.css";
 import InputField from "../../components/ui/Field/InputField";
 import ActionButton from "@/components/ui/Button/ActionButton";
 import Message from "@/components/ui/Message/Message";
+import Schedule from "@/components/ui/Schedule/Schedule";
 
 const menuItems = [
   { id: "chat", label: "Conversas" },
@@ -16,12 +17,13 @@ const menuItems = [
 ];
 
 const initialMessages = [
-  { id: "message-1", author: { id: "marina", name: "Marina", color: "orange" }, content: "Alguém já testou useEffect com cleanup?", createdAt: "2026-11-12T14:02:00-03:00", attachments: [] },
-  { id: "message-2", author: { id: "caio", name: "Caio", color: "green" }, content: "Testei ontem: retorna a função dentro do efeito.", createdAt: "2026-11-12T14:05:00-03:00" },
-  { id: "message-3", author: { id: "bia", name: "Bia", color: "pink" }, content: "Posso mandar o exemplo no repositório?", createdAt: "2026-11-12T14:06:00-03:00" },
-  { id: "message-4", author: { id: "theo", name: "Théo", color: "blue" }, content: "Manda, reviso depois do almoço.", createdAt: "2026-11-12T14:09:00-03:00" },
-  { id: "message-5", author: { id: "lia", name: "Lia", color: "purple" }, content: "Subi a branch nova com os testes.", createdAt: "2026-11-12T14:12:00-03:00", attachments: [{ id: "attachment-1", name: "preview.svg", kind: "image", mimeType: "image/svg+xml", url: "/favicon.svg" }] },
-  { id: "message-6", author: { id: "current-user", name: "Você", color: "blue" }, content: "Deixei também o material de referência.", createdAt: "2026-11-12T14:14:00-03:00", attachments: [{ id: "attachment-2", name: "icons.svg", kind: "file", mimeType: "image/svg+xml", url: "/icons.svg" }] },
+  { id: "message-1", author: { id: "marina", name: "Marina", color: "orange" }, type: "recipient", content: "Alguém já testou useEffect com cleanup?", createdAt: "2026-11-12T14:02:00-03:00", attachments: [] },
+  { id: "message-2", author: { id: "caio", name: "Caio", color: "green" }, type: "recipient", content: "Testei ontem: retorna a função dentro do efeito.", createdAt: "2026-11-12T14:05:00-03:00" },
+  { id: "message-3", author: { id: "bia", name: "Bia", color: "pink" }, type: "recipient", content: "Posso mandar o exemplo no repositório?", createdAt: "2026-11-12T14:06:00-03:00" },
+  { id: "message-4", author: { id: "theo", name: "Théo", color: "blue" }, type: "recipient", content: "Manda, reviso depois do almoço.", createdAt: "2026-11-12T14:09:00-03:00" },
+  { id: "message-5", author: { id: "lia", name: "Lia", color: "purple" }, type: "recipient", content: "Subi a branch nova com os testes.", createdAt: "2026-11-12T14:12:00-03:00", attachments: [{ id: "attachment-1", name: "preview.svg", kind: "image", mimeType: "image/svg+xml", url: "/favicon.svg" }] },
+  { id: "message-6", author: { id: "current-user", name: "Você", color: "blue" }, type: "sender", content: "Deixei também o material de referência.", createdAt: "2026-11-12T14:14:00-03:00", attachments: [{ id: "attachment-2", name: "icons.svg", kind: "file", mimeType: "image/svg+xml", url: "/icons.svg" }] },
+  { id: "message-admin-1", type: "admin", content: "Bem-vindos ao servidor! Este é um canal da administração da comunidade.", createdAt: "2026-11-12T13:58:00-03:00" },
 ];
 
 // const activeMembers = messages.map(({ initial, color }) => ({ initial, color }));
@@ -72,7 +74,19 @@ export default function CommunityServer() {
           ))}
         </ul>
       </aside>
-      {selectedMenu === "chat" ? (
+      {selectedMenu === "schedule" ? (
+        <>
+          <header className="community-server__header">
+            <div>
+              <p>Servidor da comunidade</p>
+              <h1>{community.title}</h1>
+            </div>
+          </header>
+          <main className="community-server__content community-server__schedule-content">
+            <Schedule />
+          </main>
+        </>
+      ) : selectedMenu === "chat" ? (
         <>
           <header className="community-server__header community-server__chat-header">
             <button className="community-server__channel" type="button">
@@ -118,6 +132,7 @@ export default function CommunityServer() {
                       name: "Você",
                       color: "purple",
                     },
+                    type: "sender",
                     content,
                     createdAt: new Date().toISOString(),
                     status: "sending",

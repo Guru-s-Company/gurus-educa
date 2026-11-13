@@ -1,0 +1,375 @@
+/*
+  Cronograma — neobrutalismo na paleta do Guru's Educa
+
+  CSS Nesting nativo não aceita sufixo com & (ex.: &__dia só funciona no Sass).
+  Por isso os elementos BEM são aninhados com a classe completa
+  e os modificadores usam &.classe--modificador.
+*/
+
+.cronograma {
+  /* Tokens locais: leem os tokens globais do :root; o segundo valor é o fallback do modo claro */
+  --cron-card: var(--card, #ffffff);
+  --cron-apoio: var(--apoio, #cff2de);
+  --cron-borda: var(--borda, #1b1530);
+  --cron-texto: var(--texto, #1b1530);
+  --cron-roxo: var(--roxo, #5b3fc4);
+  --cron-verde: var(--verde, #69d79b);
+  --cron-perigo: var(--perigo, #ff7b7b);
+  --cron-aviso: var(--aviso, #ffd166);
+  --cron-sobre-roxo: #ffffff;
+
+  --cron-linha: 3px;
+  --cron-raio: 20px;
+  --cron-sombra: 4px 4px 0 var(--cron-borda);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  padding: 1rem;
+  font-family: "Sulphur Point", system-ui, sans-serif;
+  color: var(--cron-texto);
+  overflow: hidden;
+
+  /* ---------- Cabeçalho ---------- */
+
+  .cronograma__cabecalho {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .cronograma__titulo {
+      margin: 0;
+      font-size: 1.75rem;
+      line-height: 1.1;
+      color: var(--cron-roxo);
+    }
+
+    .cronograma__periodo {
+      margin: 0.25rem 0 0;
+      font-size: 0.95rem;
+    }
+
+    .cronograma__navegacao {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0 4px 4px 0; /* espaço para a sombra */
+    }
+  }
+
+  /* ---------- Botões de navegação ---------- */
+
+  .cronograma__botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 2.75rem;
+    padding: 0 1.1rem;
+    font: inherit;
+    font-weight: 700;
+    color: var(--cron-texto);
+    background: var(--cron-card);
+    border: var(--cron-linha) solid var(--cron-borda);
+    border-radius: 999px;
+    box-shadow: var(--cron-sombra);
+    cursor: pointer;
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease,
+      background-color 0.12s ease;
+
+    &:hover {
+      background: var(--cron-apoio);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--cron-borda);
+    }
+
+    &:active {
+      background: var(--cron-verde);
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 0 var(--cron-borda);
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--cron-roxo);
+      outline-offset: 3px;
+    }
+
+    &.cronograma__botao--icone {
+      width: 2.75rem;
+      padding: 0;
+    }
+  }
+
+  /* ---------- Filtros por tipo ---------- */
+
+  .cronograma__filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0 4px 4px 0;
+    list-style: none;
+
+    .cronograma__filtro {
+      --marca: var(--cron-verde);
+
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 2.25rem;
+      padding: 0 0.9rem 0 0.7rem;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--cron-texto);
+      background: var(--cron-card);
+      border: 2px solid var(--cron-borda);
+      border-radius: 999px;
+      box-shadow: 3px 3px 0 var(--cron-borda);
+      cursor: pointer;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease;
+
+      &:active {
+        transform: translate(3px, 3px);
+        box-shadow: 0 0 0 var(--cron-borda);
+      }
+
+      &:focus-visible {
+        outline: 3px solid var(--cron-roxo);
+        outline-offset: 3px;
+      }
+
+      &[aria-pressed="true"] {
+        background: var(--cron-apoio);
+
+        .cronograma__filtro-marca {
+          background: var(--marca);
+        }
+      }
+
+      .cronograma__filtro-marca {
+        width: 0.9rem;
+        height: 0.9rem;
+        background: transparent;
+        border: 2px solid var(--cron-borda);
+        border-radius: 4px;
+      }
+
+      &.cronograma__filtro--aula {
+        --marca: var(--cron-verde);
+      }
+
+      &.cronograma__filtro--chamada {
+        --marca: var(--cron-roxo);
+      }
+
+      &.cronograma__filtro--entrega {
+        --marca: var(--cron-aviso);
+      }
+
+      &.cronograma__filtro--prova {
+        --marca: var(--cron-perigo);
+      }
+    }
+  }
+
+  /* ---------- Semana (colunas com rolagem horizontal) ---------- */
+
+  .cronograma__semana {
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(220px, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0 10px 12px 2px; /* espaço para as sombras não serem cortadas */
+    overflow: auto;
+    cursor: grab;
+    user-select: none;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    @media (max-width: 720px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      overflow-x: hidden;
+    }
+  }
+
+  /* ---------- Coluna do dia ---------- */
+
+  .cronograma__dia {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--cron-card);
+    border: var(--cron-linha) solid var(--cron-borda);
+    border-radius: var(--cron-raio);
+    box-shadow: var(--cron-sombra);
+
+    .cronograma__dia-cabecalho {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: var(--cron-apoio);
+      border-bottom: var(--cron-linha) solid var(--cron-borda);
+
+      .cronograma__dia-semana {
+        display: block;
+        font-size: 0.9rem;
+      }
+
+      .cronograma__dia-numero {
+        font-size: 1.75rem;
+        line-height: 1;
+      }
+
+      .cronograma__dia-contagem {
+        display: grid;
+        place-items: center;
+        min-width: 2rem;
+        height: 2rem;
+        padding: 0 0.4rem;
+        font-weight: 700;
+        color: var(--cron-texto);
+        background: var(--cron-card);
+        border: 2px solid var(--cron-borda);
+        border-radius: 999px;
+      }
+    }
+
+    /* O dia atual é o único destaque forte da tela */
+    &.cronograma__dia--hoje {
+      box-shadow: 8px 8px 0 var(--cron-borda);
+
+      .cronograma__dia-cabecalho {
+        color: var(--cron-sobre-roxo);
+        background: var(--cron-roxo);
+      }
+    }
+
+    .cronograma__eventos {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin: 0;
+      padding: 0.85rem 1rem 1rem 0.85rem; /* direita maior: sombra dos cards */
+      overflow-y: auto;
+      list-style: none;
+    }
+
+    .cronograma__vazio {
+      padding: 1rem;
+      font-size: 0.9rem;
+      text-align: center;
+      border: 2px dashed var(--cron-borda);
+      border-radius: 14px;
+      opacity: 0.6;
+    }
+  }
+
+  /* ---------- Card de atividade ---------- */
+
+  .cronograma__evento {
+    --evento-cor: var(--cron-apoio);
+    --evento-texto: var(--cron-texto);
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    width: 100%;
+    padding: 0.75rem;
+    font: inherit;
+    text-align: left;
+    color: var(--evento-texto);
+    background: var(--evento-cor);
+    border: 2px solid var(--cron-borda);
+    border-radius: 14px;
+    box-shadow: 3px 3px 0 var(--cron-borda);
+    cursor: pointer;
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease;
+
+    &:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 var(--cron-borda);
+    }
+
+    &:active {
+      transform: translate(3px, 3px);
+      box-shadow: 0 0 0 var(--cron-borda);
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--cron-roxo);
+      outline-offset: 3px;
+    }
+
+    &.cronograma__evento--aula {
+      --evento-cor: var(--cron-verde);
+    }
+
+    &.cronograma__evento--chamada {
+      --evento-cor: var(--cron-roxo);
+      --evento-texto: var(--cron-sobre-roxo);
+    }
+
+    &.cronograma__evento--entrega {
+      --evento-cor: var(--cron-aviso);
+    }
+
+    &.cronograma__evento--prova {
+      --evento-cor: var(--cron-perigo);
+    }
+
+    .cronograma__evento-tipo {
+      padding: 0.1rem 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--cron-texto);
+      background: var(--cron-card);
+      border: 2px solid var(--cron-borda);
+      border-radius: 999px;
+    }
+
+    .cronograma__evento-titulo {
+      font-size: 1rem;
+      line-height: 1.25;
+    }
+
+    .cronograma__evento-info {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cronograma__botao,
+    .cronograma__filtro,
+    .cronograma__evento {
+      transition: none;
+    }
+  }
+}

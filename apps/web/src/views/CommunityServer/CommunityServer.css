@@ -1,6 +1,9 @@
 .community-server {
   display: grid;
   height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
   gap: var(--spacing-lg);
   grid-template-columns: 20% 1fr;
   grid-template-rows: 10% 1fr;
@@ -19,6 +22,10 @@
   .community-server__content {
     background-color: #ffffff60;
     grid-area: content;
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
     padding: var(--spacing-lg);
 
     .community-server__message-form {
@@ -53,6 +60,12 @@
       justify-content: space-between;
       gap: var(--spacing-lg);
       padding: var(--spacing-md);
+    }
+
+    .community-server__schedule-content {
+      display: flex;
+      min-height: 0;
+      min-width: 0;
     }
   }
 
@@ -245,10 +258,19 @@
 
 .community-server__messages {
   height: 100%;
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-sm);
   overflow-y: auto;
+}
+
+/* Mensagens do remetente alinham à direita, como na prototipação. */
+.community-server__messages .message--sender {
+  align-self: flex-end;
+}
+
+.community-server__messages .message--admin {
+  align-self: center;
 }
 
 .community-server__message {
