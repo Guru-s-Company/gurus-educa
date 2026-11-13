@@ -1,7 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
-
-@import url('https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap');
 
 /* O modo escuro é ativado pela classe .dark no <html> */
 @custom-variant dark (&:is(.dark *));
@@ -22,6 +21,13 @@
   --ring: #6240BF;                  /* Roxo forte (foco) */
   --overlay: oklch(0% 0 0 / 0.8);
   --shadow: 8px 8px 0px var(--border);
+  --grid-line: rgb(107 217 155 / 0.455);
+  --shape-background: #5B3FC4;
+  --shape-border: #1A1226;
+  --avatar-orange: #F5AD5C;
+  --avatar-pink: #E58CB7;
+  --avatar-blue: #89A9ED;
+  --avatar-purple: #B69AEF;
 
   /* --- Durações e easings --- */
   --duration-fast: 150ms;
@@ -84,6 +90,13 @@
   --ring: #C8BAF0;                  /* Roxo claro (foco) */
   --overlay: oklch(0% 0 0 / 0.8);
   --shadow: 4px 4px 0px 0px var(--border);
+  --grid-line: rgb(143 132 173 / 0.3);
+  --shape-background: #9B83D3;
+  --shape-border: #0E0A18;
+  --avatar-orange: #D98932;
+  --avatar-pink: #C56896;
+  --avatar-blue: #6D8FD8;
+  --avatar-purple: #9675D5;
 
   /* --- Durações e easings --- */
   --duration-fast: 150ms;

@@ -1,0 +1,83 @@
+/* ---------- Base: papel quadriculado ---------- */
+html {
+  min-height: 100%;
+  background-color: var(--background);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* ---------- Container das formas ---------- */
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* O fundo ocupa a mesma área do layout, mas nunca deve cobrir seus filhos. */
+.app-layout > :not(.background),
+.public-layout > :not(.background) {
+  z-index: 1;
+}
+
+/* ---------- Forma base ---------- */
+.background__shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  aspect-ratio: 1;
+  background-color: var(--shape-background);
+  border: 3px solid var(--shape-border);
+  will-change: transform;
+}
+
+/* ---------- Variações ---------- */
+.background__shape--circle {
+  width: clamp(52px, 11.5vw, 120px);
+  border-radius: 50%;
+}
+
+.background__shape--square-a {
+  width: clamp(80px, 18vw, 190px);
+  border-radius: 22%;
+}
+
+.background__shape--square-b {
+  width: clamp(90px, 22vw, 230px);
+  border-radius: 20%;
+}
+
+.background__shape--square-c {
+  width: clamp(60px, 11vw, 120px);
+  border-radius: 22%;
+}
+
+.background__shape--triangle {
+  width: clamp(70px, 13vw, 140px);
+  height: clamp(60.62px, 11.258vw, 121.24px);
+  background-color: var(--shape-background);
+  border: 0;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  filter: drop-shadow(6px 6px 0 var(--shape-border));
+}
+
+.background__shape--triangle::after {
+  content: none;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px) {
+  .background__shape--square-c {
+    display: none;
+  }
+}

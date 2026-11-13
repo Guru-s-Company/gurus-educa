@@ -1,5 +1,5 @@
-import BackgroundShapes from "../components/Background/Background";
-import Sidebar from "../components/ui/Sidebar/Sidebar";
+import BackgroundShapes from "../Background/Background";
+import Sidebar from "../Sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
 
 export default function AppLayout() {
