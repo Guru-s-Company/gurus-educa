@@ -20,38 +20,13 @@
   }
 
   .community-server__content {
-    background-color: #ffffff60;
+    background-color: color-mix(in srgb, var(--secondary-background) 70%, transparent);
     grid-area: content;
     box-sizing: border-box;
     min-width: 0;
     min-height: 0;
     overflow: hidden;
     padding: var(--spacing-lg);
-
-    .community-server__message-form {
-      width: 100%;
-      display: flex;
-      gap: 0.75rem;
-
-      .community-server__message-input {
-        flex: 1;
-        border-radius: 30px 15px 15px 30px;
-        border-width: 4px;
-      }
-
-      .community-server__midia-button{
-        width: 60px;
-        border-radius: 15px;
-        border-width: 4px;
-      }
-
-      .community-server__send-button{
-        width: 250px;
-        border-radius: 15px 30px 30px 15px;
-        border-width: 4px;
-        font-weight: bolder;
-      }
-    }
 
     .community-server__chat-content {
       display: flex;
@@ -75,7 +50,7 @@
     top: 0;
     height: 100%;
     min-height: 0;
-    background-color: white;
+    background-color: var(--secondary-background);
     border: 3px solid var(--color-border);
     border-radius: 30px;
     box-shadow:
@@ -168,7 +143,7 @@
 .community-server__content {
   border: 3px solid var(--color-border);
   border-radius: 30px;
-  background-color: white;
+  background-color: var(--secondary-background);
   box-shadow: 8px 8px 0 var(--color-border);
 }
 
@@ -228,7 +203,7 @@
 }
 
 .community-server__avatar--orange {
-  background-color: #f5ad5c;
+  background-color: var(--avatar-orange);
 }
 
 .community-server__avatar--green {
@@ -236,15 +211,15 @@
 }
 
 .community-server__avatar--pink {
-  background-color: #e58cb7;
+  background-color: var(--avatar-pink);
 }
 
 .community-server__avatar--blue {
-  background-color: #89a9ed;
+  background-color: var(--avatar-blue);
 }
 
 .community-server__avatar--purple {
-  background-color: #b69aef;
+  background-color: var(--avatar-purple);
 }
 
 .community-server__chat-content {
@@ -305,98 +280,6 @@
 .community-server__message div > span {
   display: block;
   margin-top: 0.1rem;
-}
-
-.community-server__message-form {
-  width: 100%;
-}
-
-.community-server__message-form input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.75rem 1rem;
-  border: 3px solid var(--color-border);
-  border-radius: 999px;
-  outline: 0;
-  background-color: var(--apoio);
-  color: var(--foreground);
-  font: inherit;
-}
-
-.community-server__message-form input:focus {
-  border-color: var(--roxo-forte);
-}
-
-.community-server__modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  display: grid;
-  place-items: center;
-  padding: var(--spacing-lg);
-  background-color: rgb(26 21 40 / 0.55);
-}
-
-.community-server__media-modal {
-  width: min(100%, 32rem);
-  padding: var(--spacing-lg);
-  border: 3px solid var(--color-border);
-  border-radius: 1.5rem;
-  background-color: var(--secondary-background);
-  box-shadow: 8px 8px 0 var(--color-border);
-}
-
-.community-server__media-modal header,
-.community-server__media-modal footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-sm);
-}
-
-.community-server__media-modal h2 {
-  margin: 0;
-  color: var(--roxo-forte);
-}
-
-.community-server__media-modal header button {
-  width: 2rem;
-  height: 2rem;
-  border: 2px solid var(--color-border);
-  border-radius: 50%;
-  background: var(--verde-suave);
-  color: var(--foreground);
-  font-size: 1.25rem;
-  cursor: pointer;
-}
-
-.community-server__file-picker {
-  display: grid;
-  gap: var(--spacing-sm);
-  margin: var(--spacing-lg) 0;
-  padding: var(--spacing-lg);
-  border: 3px dashed var(--color-border);
-  border-radius: 1rem;
-  color: var(--texto-auxiliar);
-  cursor: pointer;
-  text-align: center;
-}
-
-.community-server__file-picker input {
-  width: 100%;
-}
-
-.community-server__selected-files {
-  display: grid;
-  gap: 0.35rem;
-  max-height: 8rem;
-  margin: 0 0 var(--spacing-lg);
-  padding-left: 1.25rem;
-  overflow-y: auto;
-}
-
-.community-server__media-modal footer {
-  justify-content: flex-end;
 }
 
 @media (max-width: 600px) {

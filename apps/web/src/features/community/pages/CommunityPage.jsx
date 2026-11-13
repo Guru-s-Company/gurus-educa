@@ -1,10 +1,10 @@
 import { useState } from "react";
-import CommunityCard from "../../components/ui/Card/CommunityCard";
+import CommunityCard from "../../../app/components/ui/Card/CommunityCard";
 import {
   communities as myCommunities,
   discoverCommunities,
-} from "../../data/communities";
-import "./Community.css";
+} from "../mocks/communityList";
+import "./CommunityPage.css";
 
 function CommunityGrid({ communities }) {
   return (
@@ -22,7 +22,7 @@ function CommunityGrid({ communities }) {
   );
 }
 
-export default function Community() {
+export default function CommunityPage() {
   const [viewMode, setViewMode] = useState("mine");
   const [transitionPhase, setTransitionPhase] = useState("idle");
   const isMineMode = viewMode === "mine";
@@ -71,17 +71,14 @@ export default function Community() {
             aria-label="Buscar comunidades"
           />
         </div>
-{!isMineMode &&
-        <nav
-          className="community-page__tabs"
-          aria-label="Filtros de comunidades"
-        >
-          <button type="button">Todas</button>
-          <button type="button">Minhas comunidades</button>
-          <button type="button">Populares</button>
-          <button type="button">Recentes</button>
-        </nav>
-           }
+        {!isMineMode && (
+          <nav className="community-page__tabs" aria-label="Filtros de comunidades">
+            <button type="button">Todas</button>
+            <button type="button">Minhas comunidades</button>
+            <button type="button">Populares</button>
+            <button type="button">Recentes</button>
+          </nav>
+        )}
       </header>
 
       <section
