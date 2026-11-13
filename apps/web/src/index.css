@@ -66,6 +66,7 @@
   --borda-verde: #6BD79B;
   --perigo: #C62F3A;
   --aviso: #FFC857;
+  --amarelo: #FFC857;          /* Administração do sistema */
 }
 
 /* =========================================================
@@ -116,6 +117,7 @@
   --borda-verde: #6BD79B;           /* não existe no modo escuro: reaproveitei o Verde */
   --perigo: #FF8A8A;
   --aviso: #FFC857;
+  --amarelo: #FFC857;          /* Administração do sistema */
 }
 
 /* =========================================================
@@ -151,6 +153,7 @@
   --color-borda-verde: var(--borda-verde);
   --color-perigo: var(--perigo);
   --color-aviso: var(--aviso);
+  --color-amarelo: var(--amarelo);
 
   /* Espaçamentos padrão */
   --spacing-xs: 0.25rem;    /* 4px */
@@ -250,6 +253,7 @@
 .app-content {
   flex: 1;
   height: 100%;
+  box-sizing: border-box;
   min-width: 0;
   min-height: 0;
   padding: var(--spacing-lg);
