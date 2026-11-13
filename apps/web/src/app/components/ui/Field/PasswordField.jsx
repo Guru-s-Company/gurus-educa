@@ -1,7 +1,7 @@
 import "./PasswordField.css";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useFieldIds, cn } from "../../../lib/helpers";
+import { useFieldIds, cn } from "../../../../lib/helpers";
 
 /**
  * @typedef {Object} PasswordFieldProps
@@ -15,7 +15,7 @@ import { useFieldIds, cn } from "../../../lib/helpers";
  * @property {string} [hint] - Hint text to display.
  * @property {string} [autoComplete="current-password"] - Autocomplete attribute value.
  * @property {string} [value] - Controlled value for the input.
- * @property {Function} [onChange] - Callback when value changes.
+ * @property {(value: string) => void} [onChange] - Callback when value changes.
  * @property {string} [className] - Additional CSS classes.
  * @property {Object} [rest] - Additional props passed to the input element.
  */

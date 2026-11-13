@@ -1,7 +1,7 @@
 import "./SelectField.css";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { ChevronDown, Check } from "lucide-react";
-import { useFieldIds, cn } from "../../../lib/helpers";
+import { useFieldIds, cn } from "../../../../lib/helpers";
 
 /**
  * @typedef {Object} SelectFieldOption

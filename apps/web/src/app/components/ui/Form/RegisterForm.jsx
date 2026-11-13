@@ -195,7 +195,7 @@ function RegisterForm({ onSubmit, onGithubClick = () => { /* TODO(futuro): OAuth
                                 label={REGISTER_FORM_TEXTS.EMAIL_LABEL}
                                 name="email"
                                 value={formData.email}
-                                onChange={(e) => handleFieldChange("email", e.target.value)}
+                                onChange={(value) => handleFieldChange("email", value)}
                             />
                         </div>
 
@@ -204,13 +204,13 @@ function RegisterForm({ onSubmit, onGithubClick = () => { /* TODO(futuro): OAuth
                                 label={REGISTER_FORM_TEXTS.PASSWORD_LABEL}
                                 name="password"
                                 value={formData.password}
-                                onChange={(e) => handleFieldChange("password", e.target.value)}
+                                onChange={(value) => handleFieldChange("password", value)}
                             />
                             <PasswordField
                                 label={REGISTER_FORM_TEXTS.CONFIRM_PASSWORD_LABEL}
                                 name="confirm-password"
                                 value={formData["confirm-password"]}
-                                onChange={(e) => handleFieldChange("confirm-password", e.target.value)}
+                                onChange={(value) => handleFieldChange("confirm-password", value)}
                             />
                         </div>
                     </>
@@ -226,7 +226,7 @@ function RegisterForm({ onSubmit, onGithubClick = () => { /* TODO(futuro): OAuth
                                 name="full-name"
                                 placeholder={REGISTER_FORM_TEXTS.FULL_NAME_PLACEHOLDER}
                                 value={formData["full-name"]}
-                                onChange={(e) => handleFieldChange("full-name", e.target.value)}
+                                onChange={(value) => handleFieldChange("full-name", value)}
                             />
                         </div>
 
@@ -237,7 +237,7 @@ function RegisterForm({ onSubmit, onGithubClick = () => { /* TODO(futuro): OAuth
                                 name="cpf"
                                 placeholder={REGISTER_FORM_TEXTS.CPF_PLACEHOLDER}
                                 value={formData.cpf}
-                                onChange={(e) => handleFieldChange("cpf", e.target.value)}
+                                onChange={(value) => handleFieldChange("cpf", value)}
                             />
                             <InputField
                                 type="tel"
@@ -245,7 +245,7 @@ function RegisterForm({ onSubmit, onGithubClick = () => { /* TODO(futuro): OAuth
                                 name="phone"
                                 placeholder={REGISTER_FORM_TEXTS.PHONE_PLACEHOLDER}
                                 value={formData.phone}
-                                onChange={(e) => handleFieldChange("phone", e.target.value)}
+                                onChange={(value) => handleFieldChange("phone", value)}
                             />
                         </div>
 

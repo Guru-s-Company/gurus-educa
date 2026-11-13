@@ -1,5 +1,5 @@
 import "./Dot.css"
-import { cn } from "../../../lib/helpers"
+import { cn } from "../../../../lib/helpers"
 
 /**
  * @readonly

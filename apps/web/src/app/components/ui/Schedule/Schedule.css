@@ -8,15 +8,15 @@
 
 .cronograma {
   /* Tokens locais: leem os tokens globais do :root; o segundo valor é o fallback do modo claro */
-  --cron-card: var(--card, #ffffff);
-  --cron-apoio: var(--apoio, #cff2de);
-  --cron-borda: var(--borda, #1b1530);
-  --cron-texto: var(--texto, #1b1530);
-  --cron-roxo: var(--roxo, #5b3fc4);
-  --cron-verde: var(--verde, #69d79b);
-  --cron-perigo: var(--perigo, #ff7b7b);
-  --cron-aviso: var(--aviso, #ffd166);
-  --cron-sobre-roxo: #ffffff;
+  --cron-card: var(--secondary-background);
+  --cron-apoio: var(--apoio);
+  --cron-borda: var(--border);
+  --cron-texto: var(--foreground);
+  --cron-roxo: var(--roxo);
+  --cron-verde: var(--verde);
+  --cron-perigo: var(--perigo);
+  --cron-aviso: var(--aviso);
+  --cron-sobre-roxo: var(--main-foreground);
 
   --cron-linha: 3px;
   --cron-raio: 20px;

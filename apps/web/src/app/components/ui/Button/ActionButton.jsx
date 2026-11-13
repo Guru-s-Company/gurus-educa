@@ -1,5 +1,5 @@
 import "./ActionButton.css";
-import { cn } from "../../../lib/helpers";
+import { cn } from "../../../../lib/helpers";
 
 /**
  * @typedef {Object} ActionButtonProps

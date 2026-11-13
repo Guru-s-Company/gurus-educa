@@ -1,5 +1,5 @@
 import "./InputField.css";
-import { useFieldIds, cn } from "../../../lib/helpers";
+import { useFieldIds, cn } from "../../../../lib/helpers";
 
 /**
  * @typedef {Object} InputFieldProps

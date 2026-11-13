@@ -40,11 +40,11 @@
   object-fit: cover;
 }
 
-.message__avatar--orange { background-color: #f5ad5c; }
+.message__avatar--orange { background-color: var(--avatar-orange); }
 .message__avatar--green { background-color: var(--verde); }
-.message__avatar--pink { background-color: #e58cb7; }
-.message__avatar--blue { background-color: #89a9ed; }
-.message__avatar--purple { background-color: #b69aef; }
+.message__avatar--pink { background-color: var(--avatar-pink); }
+.message__avatar--blue { background-color: var(--avatar-blue); }
+.message__avatar--purple { background-color: var(--avatar-purple); }
 
 .message__body {
   grid-area: body;
