@@ -19,7 +19,7 @@ const router = Router();
  * Middleware genérico de validação de body com Zod
  * Retorna 400 formatado se validação falhar
  */
-function validateBody<T extends z.ZodTypeAny>(schema: T) {
+function validateBody<T extends z.ZodType>(schema: T) {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       req.body = await schema.parseAsync(req.body);

@@ -3,7 +3,9 @@ import express, { type Request, type Response, type NextFunction } from "express
 import cors from "cors";
 import { prisma } from "./lib/prisma";
 import authRoutes from "./routes/auth";
+import profileRoutes from "./routes/profile";
 import { AuthError } from "./services/auth.service";
+import { AppError, isAppError } from "./lib/errors";
 
 const app = express();
 
@@ -28,6 +30,9 @@ app.get("/health", async (_req, res) => {
 // Rotas de autenticação
 app.use("/auth", authRoutes);
 
+// Rotas de perfil
+app.use("/profile", profileRoutes);
+
 // Exemplo de rota protegida (para teste)
 app.get("/auth/protected", async (req, res) => {
   // Este middleware será adicionado depois
@@ -38,7 +43,17 @@ app.get("/auth/protected", async (req, res) => {
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.error("Error:", err);
 
-  // Erros de domínio da autenticação
+  // Erros de domínio da aplicação (AppError e subclasses)
+  if (isAppError(err)) {
+    res.status(err.statusCode).json({
+      error: err.code,
+      message: err.message,
+      details: err.details,
+    });
+    return;
+  }
+
+  // Erros de autenticação legados
   if (err instanceof AuthError) {
     res.status(err.statusCode).json({
       error: err.code,
@@ -47,7 +62,7 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     return;
   }
 
-  // Erros de validação Zod (já tratados no middleware, mas fallback)
+  // Erros de validação Zod (fallback)
   if (err.name === "ZodError") {
     res.status(400).json({
       error: "VALIDATION_ERROR",
@@ -88,4 +103,5 @@ app.listen(port, () => {
   console.log(`API rodando em http://localhost:${port}`);
   console.log(`Health check: http://localhost:${port}/health`);
   console.log(`Auth routes: http://localhost:${port}/auth/*`);
+  console.log(`Profile routes: http://localhost:${port}/profile/*`);
 });
