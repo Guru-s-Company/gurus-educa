@@ -1,0 +1,83 @@
+.lessons-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  min-width: 0;
+
+  .lessons-page__header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    .lessons-page__eyebrow {
+      margin: 0;
+      color: var(--texto-auxiliar);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 2.6rem);
+      line-height: 1;
+      color: var(--roxo-forte);
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: var(--font-weight-heading);
+    }
+  }
+
+  .lessons-page__subtitle {
+    margin: 0.2rem 0 0;
+    max-width: 44rem;
+    color: var(--texto-secundario);
+    font-size: 0.95rem;
+  }
+
+  .lessons-page__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      min-width: 0;
+    }
+
+    .stat-card {
+      width: 100%;
+    }
+  }
+
+  .lessons-page__agenda {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    height: clamp(28rem, 68dvh, 46rem);
+  }
+}
+
+/* Quando embutida na página da comunidade, a view usa menos espaçamento. */
+.lessons-page--embedded {
+  gap: var(--spacing-md);
+}
+
+@media (max-width: 720px) {
+  .lessons-page {
+    .lessons-page__stats {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lessons-page__agenda {
+      height: auto;
+    }
+  }
+}

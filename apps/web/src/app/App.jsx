@@ -7,6 +7,7 @@ import Community from "../features/community/pages/CommunityPage";
 import Login from "../features/auth/pages/LoginPage";
 import Register from "../features/auth/pages/RegisterPage";
 import Courses from "../features/courses/pages/CoursesPage";
+import Lessons from "../features/lessons/pages/LessonsPage";
 import Achievements from "../features/achievements/pages/AchievementsPage";
 import CommunityServer from "../features/community/pages/CommunityServerPage";
 
@@ -23,6 +24,7 @@ function App() {
           <Route element={<AppLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/cursos" element={<Courses />} />
+            <Route path="/aulas" element={<Lessons />} />
             <Route path="/comunidades" element={<Community />} />
             <Route path="/comunidades/:communityId" element={<CommunityServer />} />
             <Route path="/conquistas" element={<Achievements />} />
