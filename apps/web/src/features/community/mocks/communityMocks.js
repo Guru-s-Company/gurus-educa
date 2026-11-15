@@ -1,3 +1,15 @@
+/**
+ * Membros de demonstração do servidor.
+ * As cores referenciam os tons de avatar já usados nas mensagens.
+ */
+export const communityMembers = [
+  { id: "marina", name: "Marina", color: "orange", online: true },
+  { id: "caio", name: "Caio", color: "green", online: false },
+  { id: "bia", name: "Bia", color: "pink", online: false },
+  { id: "theo", name: "Théo", color: "blue", online: false },
+  { id: "lia", name: "Lia", color: "purple", online: false },
+];
+
 export const menuItems = [
   { id: "chat", label: "Conversas" },
   { id: "calls", label: "Chamadas" },
