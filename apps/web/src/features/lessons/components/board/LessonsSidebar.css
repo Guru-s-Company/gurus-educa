@@ -1,0 +1,186 @@
+.lessons-side {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.lessons-side__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: var(--spacing-md);
+  background: var(--color-secondary-background);
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-base);
+  box-shadow: 4px 4px 0 var(--color-border);
+}
+
+.lessons-side__title {
+  margin: 0;
+  color: var(--roxo-forte);
+  font-size: 1rem;
+}
+
+.lessons-side__figure {
+  margin: 0;
+  color: var(--texto-secundario);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.lessons-side__figure strong {
+  color: var(--color-foreground);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.lessons-side__bar {
+  overflow: hidden;
+  height: 0.75rem;
+  background: var(--apoio);
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+}
+
+.lessons-side__bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--verde);
+  border-inline-end: 2px solid var(--color-border);
+  transition: width var(--duration-slow) var(--easing-standard);
+}
+
+.lessons-side__percent {
+  margin: 0;
+  color: var(--verde-forte);
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.dark .lessons-side__percent {
+  color: var(--verde);
+}
+
+.lessons-side__grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lessons-side__square {
+  aspect-ratio: 1;
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.lessons-side__square--scheduled { background: var(--main); }
+.lessons-side__square--completed { background: var(--verde); }
+.lessons-side__square--postponed { background: var(--aviso); }
+.lessons-side__square--cancelled { background: var(--perigo); }
+
+.lessons-side__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--texto-secundario);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.lessons-side__legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.lessons-side__legend-mark {
+  width: 0.65rem;
+  height: 0.65rem;
+  border: 2px solid var(--color-border);
+  border-radius: 3px;
+}
+
+.lessons-side__legend-mark--scheduled { background: var(--main); }
+.lessons-side__legend-mark--completed { background: var(--verde); }
+.lessons-side__legend-mark--postponed { background: var(--aviso); }
+.lessons-side__legend-mark--cancelled { background: var(--perigo); }
+
+/* Miniatura decorativa: a gravação só existirá quando houver URL real. */
+.lessons-side__thumb {
+  position: relative;
+  overflow: hidden;
+  height: 5.5rem;
+  background: var(--color-border);
+  border: 2px solid var(--color-border);
+  border-radius: 14px;
+}
+
+.lessons-side__thumb-bar {
+  position: absolute;
+  left: 0.8rem;
+  height: 6px;
+  border-radius: 999px;
+}
+
+.lessons-side__thumb-bar--roxo {
+  top: 0.8rem;
+  width: 55%;
+  background: var(--avatar-purple);
+}
+
+.lessons-side__thumb-bar--verde {
+  top: 1.7rem;
+  width: 75%;
+  background: var(--verde);
+}
+
+.lessons-side__thumb-bar--rosa {
+  top: 2.6rem;
+  width: 40%;
+  background: var(--avatar-pink);
+}
+
+.lessons-side__label {
+  margin: 0.15rem 0 0;
+  color: var(--texto-auxiliar);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lessons-side__text {
+  margin: 0;
+  color: var(--color-foreground);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.lessons-side__paragraph {
+  margin: 0;
+  color: var(--texto-secundario);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.lessons-side__empty {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  color: var(--texto-auxiliar);
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lessons-side__bar-fill {
+    transition: none;
+  }
+}

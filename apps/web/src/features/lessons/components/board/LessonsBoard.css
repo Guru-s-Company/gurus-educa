@@ -1,0 +1,358 @@
+.lessons-board {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.lessons-board__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-sm) var(--spacing-md);
+}
+
+.lessons-board__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.1;
+  color: var(--roxo-forte);
+}
+
+.lessons-board__subtitle {
+  margin: 0.2rem 0 0;
+  max-width: 34rem;
+  color: var(--texto-secundario);
+  font-size: 0.9rem;
+}
+
+.lessons-board__scope {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.lessons-board__scope-button {
+  width: auto;
+  min-height: 2.75rem;
+  padding: 0 1.1rem;
+  background: var(--color-secondary-background);
+  font-size: 0.88rem;
+}
+
+.lessons-board__scope-button.is-active {
+  background: var(--verde);
+  color: var(--color-border);
+  box-shadow: var(--shadow-base);
+}
+
+.lessons-board__scope-button:not(.is-active):hover {
+  background: var(--apoio);
+}
+
+.lessons-board__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 21rem);
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+.lessons-board__main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* --- Barra de filtros --- */
+
+.lessons-board__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--spacing-sm);
+}
+
+.lessons-board__search {
+  position: relative;
+  flex: 1 1 12rem;
+  min-width: 10rem;
+}
+
+.lessons-board__search-icon {
+  position: absolute;
+  left: 0.9rem;
+  bottom: 0.85rem;
+  display: inline-flex;
+  color: var(--texto-auxiliar);
+  pointer-events: none;
+}
+
+.lessons-board__search .input-field__input {
+  min-height: 2.75rem;
+  padding-left: 2.5rem;
+  box-shadow: 3px 3px 0 var(--color-border);
+}
+
+.lessons-board__filters .input-field__label,
+.lessons-board__filters .select-field__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+
+.lessons-board__filters .select-field {
+  width: auto;
+}
+
+.lessons-board__filters .select-field__trigger {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 16px;
+  box-shadow: 3px 3px 0 var(--color-border);
+  font-size: 0.88rem;
+}
+
+.lessons-board__filters .select-field__menu {
+  width: max(100%, 14rem);
+}
+
+.lessons-board__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lessons-board__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: auto;
+  min-height: 2.75rem;
+  padding: 0 0.95rem;
+  background: var(--color-secondary-background);
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 var(--color-border);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.lessons-board__chip:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--color-border);
+}
+
+.lessons-board__chip:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--color-border);
+}
+
+.lessons-board__chip.is-active {
+  /* Branco contrasta com o Roxo forte nos dois temas. */
+  background: var(--roxo-forte);
+  border-color: var(--roxo-forte);
+  color: #fff;
+}
+
+.lessons-board__reset {
+  width: auto;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.lessons-board__scope-button:focus-visible,
+.lessons-board__chip:focus-visible,
+.lessons-board__reset:focus-visible {
+  outline: 3px solid var(--roxo-forte);
+  outline-offset: 3px;
+}
+
+/* --- Lista de encontros --- */
+
+.lessons-board__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.lessons-board__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.lessons-board__group-title {
+  width: fit-content;
+  margin: 0;
+  padding: 0.2rem 0.7rem;
+  color: var(--roxo-forte);
+  border-inline-start: 4px solid var(--main);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.lessons-board__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lessons-board__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  text-align: start;
+  font: inherit;
+  color: inherit;
+  background: var(--color-secondary-background);
+  border: 3px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--color-border);
+  cursor: pointer;
+  transition:
+    transform var(--duration-fast) var(--easing-spring),
+    box-shadow var(--duration-fast) var(--easing-standard);
+}
+
+.lessons-board__row:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--color-border);
+}
+
+.lessons-board__row:active {
+  transform: translate(3px, 3px);
+  box-shadow: var(--shadow-active);
+}
+
+.lessons-board__row:focus-visible {
+  outline: 3px solid var(--roxo-forte);
+  outline-offset: 3px;
+}
+
+.lessons-board__row--cancelled {
+  opacity: 0.72;
+}
+
+.lessons-board__row--cancelled .lessons-board__row-title {
+  text-decoration: line-through;
+}
+
+.lessons-board__tile {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 2px 2px 0 var(--color-border);
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+.lessons-board__tile--scheduled {
+  background: var(--roxo-suave);
+  color: var(--roxo-forte);
+}
+
+.lessons-board__tile--completed {
+  background: var(--verde-suave);
+  color: var(--color-border);
+}
+
+.lessons-board__tile--postponed {
+  background: var(--aviso);
+  color: var(--color-border);
+}
+
+.lessons-board__tile--cancelled {
+  background: color-mix(in srgb, var(--perigo) 16%, var(--color-secondary-background));
+  color: var(--perigo);
+}
+
+.dark .lessons-board__tile--cancelled {
+  color: var(--color-secondary-background);
+}
+
+.lessons-board__row-body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.lessons-board__row-title {
+  overflow: hidden;
+  font-size: 0.95rem;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lessons-board__row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.8rem;
+  color: var(--texto-auxiliar);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.lessons-board__row-meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.lessons-board__row .lesson-status-badge {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 1080px) {
+  .lessons-board__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lessons-side {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .lessons-board__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lessons-board__row,
+  .lessons-board__chip,
+  .lessons-board__scope-button {
+    transition: none;
+  }
+}
