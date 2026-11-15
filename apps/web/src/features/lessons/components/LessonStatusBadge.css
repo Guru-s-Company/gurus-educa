@@ -1,0 +1,32 @@
+.lesson-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  color: var(--color-foreground);
+  background: var(--color-secondary-background);
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+
+  &.lesson-status-badge--scheduled {
+    background: var(--roxo-suave);
+  }
+
+  &.lesson-status-badge--postponed {
+    background: var(--aviso);
+  }
+
+  &.lesson-status-badge--cancelled {
+    color: var(--perigo);
+    background: color-mix(in srgb, var(--perigo) 12%, var(--color-secondary-background));
+    border-color: var(--perigo);
+  }
+
+  &.lesson-status-badge--completed {
+    color: var(--verde-forte);
+    background: var(--verde-suave);
+  }
+}

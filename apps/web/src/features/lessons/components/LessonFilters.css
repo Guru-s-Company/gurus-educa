@@ -1,0 +1,104 @@
+/* O InputField não aceita ícone por prop; o Search é posicionado
+   absoluto sobre o campo de busca. */
+.lesson-filters__search {
+  position: relative;
+  min-width: 0;
+}
+
+.lesson-filters__search-icon {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.85rem;
+  display: inline-flex;
+  color: var(--texto-auxiliar);
+  pointer-events: none;
+}
+
+.lesson-filters__search .input-field__input {
+  padding-left: 2.6rem;
+}
+
+/* --- Barra de filtros --- */
+
+.lesson-filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-secondary-background);
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-base);
+  /* O menu do SelectField é absoluto: não cortar com overflow. */
+  overflow: visible;
+
+  .lesson-filters__grid {
+    display: grid;
+    grid-template-columns: minmax(12rem, 1.5fr) repeat(3, minmax(9rem, 1fr));
+    gap: var(--spacing-md);
+    align-items: end;
+  }
+
+  /* O menu padrão do SelectField ocupa 50% da coluna; no filtro,
+     ele precisa de espaço para nomes longos de turma. */
+  .select-field__menu {
+    width: max(100%, 13rem);
+  }
+
+  .lesson-filters__view-toggle {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .lesson-filters__view-label {
+    color: var(--color-foreground);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-heading);
+  }
+
+  .lesson-filters__view-group {
+    display: flex;
+    gap: 0.5rem;
+
+    .action-button {
+      width: auto;
+      min-height: 2.85rem;
+      padding-inline: 1rem;
+      border-radius: 20px;
+    }
+  }
+
+  .lesson-filters__reset {
+    display: flex;
+    justify-content: flex-end;
+
+    .action-button {
+      width: auto;
+      padding-inline: 1.1rem;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .lesson-filters__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .lesson-filters__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lesson-filters__reset {
+      justify-content: stretch;
+
+      .action-button {
+        width: 100%;
+      }
+    }
+  }
+}

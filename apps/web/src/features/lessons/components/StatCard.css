@@ -1,0 +1,33 @@
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  padding: 1rem 1.1rem;
+  background: var(--color-secondary-background);
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-base);
+  box-shadow: 4px 4px 0 var(--color-border);
+}
+
+.stat-card__value {
+  font-size: 1.8rem;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.stat-card__label {
+  font-size: 0.78rem;
+  color: var(--texto-auxiliar);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.stat-card--roxo .stat-card__value {
+  color: var(--roxo-forte);
+}
+
+.stat-card--verde .stat-card__value {
+  color: var(--verde-forte);
+}
