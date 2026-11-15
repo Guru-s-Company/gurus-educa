@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import {
   AwardIcon,
   BookOpenIcon,
+  CalendarIcon,
   HomeIcon,
   SettingsIcon,
   UserIcon,
@@ -17,6 +18,7 @@ import ProfileModal from "../../../../features/profile/components/ProfileModal";
 const ITEMS = [
   { path: "/", icon: <HomeIcon />, label: "Início" },
   { path: "/cursos", icon: <BookOpenIcon />, label: "Meus cursos" },
+  { path: "/aulas", icon: <CalendarIcon />, label: "Aulas" },
   { path: "/comunidades", icon: <UsersIcon />, label: "Comunidades" },
   { path: "/conquistas", icon: <AwardIcon />, label: "Conquistas" },
 ];

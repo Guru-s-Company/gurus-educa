@@ -197,6 +197,9 @@
 .sidebar li:nth-child(4) {
   animation-delay: 170ms;
 }
+.sidebar li:nth-child(5) {
+  animation-delay: 210ms;
+}
 
 .sidebar.collapsed {
   box-shadow: calc(2 * var(--shadow-size)) calc(2 * var(--shadow-size)) 0
