@@ -1,0 +1,110 @@
+.dashboard-card {
+  min-width: 0;
+  overflow: hidden;
+  border: var(--border-base) solid var(--border);
+  border-radius: var(--radius-base);
+  background: var(--secondary-background);
+  box-shadow: var(--shadow-base);
+
+  .dashboard-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border-bottom: var(--border-base) solid var(--border);
+    background: var(--roxo-suave);
+  }
+
+  .dashboard-card__heading {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    min-width: 0;
+
+    h2 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.15;
+    }
+  }
+
+  .dashboard-card__count {
+    min-width: 1.75rem;
+    height: 1.75rem;
+    display: inline-grid;
+    place-items: center;
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    background: var(--verde);
+    color: var(--main-foreground);
+    font-size: 0.78rem;
+  }
+
+  .dashboard-card__link {
+    flex: none;
+    padding: 0.45rem 0.75rem;
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    background: var(--secondary-background);
+    box-shadow: 3px 3px 0 var(--border);
+    color: var(--foreground);
+    font-size: 0.78rem;
+    text-decoration: none;
+    transition: transform var(--duration-fast), box-shadow var(--duration-fast);
+
+    &:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 var(--border);
+    }
+
+    &:active {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--roxo-forte);
+      outline-offset: 3px;
+    }
+  }
+
+  .dashboard-card__body {
+    min-height: 7.5rem;
+  }
+
+  .dashboard-card__state {
+    min-height: 7.5rem;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    color: var(--texto-auxiliar);
+    text-align: center;
+
+    p { margin: 0; }
+  }
+
+  .dashboard-card__spinner {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid var(--roxo-suave);
+    border-top-color: var(--roxo-forte);
+    border-radius: 50%;
+    animation: dashboard-spin 700ms linear infinite;
+  }
+
+  .dashboard-card__retry {
+    min-height: 2.25rem;
+  }
+}
+
+@keyframes dashboard-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-card { transition: none; }
+  .dashboard-card__spinner { animation-duration: 1.8s; }
+}
