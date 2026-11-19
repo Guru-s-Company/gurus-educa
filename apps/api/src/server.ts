@@ -4,6 +4,12 @@ import cors from "cors";
 import { prisma } from "./lib/prisma";
 import authRoutes from "./routes/auth";
 import profileRoutes from "./routes/profile";
+import classRoutes from "./routes/classes";
+import subjectRoutes from "./routes/subjects";
+import contentRoutes from "./routes/contents";
+import activityRoutes from "./routes/activities";
+import submissionRoutes from "./routes/submissions";
+import attendanceRoutes from "./routes/attendance";
 import { AuthError } from "./services/auth.service";
 import { AppError, isAppError } from "./lib/errors";
 
@@ -33,9 +39,30 @@ app.use("/auth", authRoutes);
 // Rotas de perfil
 app.use("/profile", profileRoutes);
 
+// ============================================================
+// FASE 1: GESTÃO ACADÊMICA
+// ============================================================
+
+// Turmas
+app.use("/classes", classRoutes);
+
+// Matérias (catálogo + associação turma-matéria)
+app.use("/subjects", subjectRoutes);
+
+// Conteúdos educacionais
+app.use("/contents", contentRoutes);
+
+// Atividades
+app.use("/activities", activityRoutes);
+
+// Entregas
+app.use("/submissions", submissionRoutes);
+
+// Presença
+app.use("/attendance", attendanceRoutes);
+
 // Exemplo de rota protegida (para teste)
 app.get("/auth/protected", async (req, res) => {
-  // Este middleware será adicionado depois
   res.json({ message: "Rota protegida funcionando!", user: (req as any).user });
 });
 
@@ -104,4 +131,10 @@ app.listen(port, () => {
   console.log(`Health check: http://localhost:${port}/health`);
   console.log(`Auth routes: http://localhost:${port}/auth/*`);
   console.log(`Profile routes: http://localhost:${port}/profile/*`);
+  console.log(`Classes routes: http://localhost:${port}/classes/*`);
+  console.log(`Subjects routes: http://localhost:${port}/subjects/*`);
+  console.log(`Contents routes: http://localhost:${port}/contents/*`);
+  console.log(`Activities routes: http://localhost:${port}/activities/*`);
+  console.log(`Submissions routes: http://localhost:${port}/submissions/*`);
+  console.log(`Attendance routes: http://localhost:${port}/attendance/*`);
 });
